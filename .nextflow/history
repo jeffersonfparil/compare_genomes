@@ -1,0 +1,1 @@
+2022-11-09 06:25:12	-	sad_meucci	-	d9c3670d04c4039409220b46bb2c02d8	3f68c9f2-9d20-43c2-8057-e400910842a9	nextflow run modules/setup.nf -c config/params.config
