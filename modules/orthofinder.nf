@@ -73,6 +73,7 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
             {} \
             ::: $(cat $F)
     done
+    rm rename_sequences_with_orthogroup_ID.sh
 
     echo "Merge orthogroup sequences into a single fasta file."
     MERGED_ORTHOGROUPS=$(pwd)/PROTEOMES/orthogroups.faa
@@ -109,6 +110,7 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
         ${DIR_PANTHER} \
         {} \
         ::: $(ls $DIR_PANTHER)
+    rm hmmsearch_for_parallel_execution.sh
 
     echo "Concatenate hmmsearch output for each protein family into a single output file."
     PANTHER_ORTHOGROUPS=$(echo ${MERGED_ORTHOGROUPS} | sed s/.faa$//g).pthr

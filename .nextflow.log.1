@@ -1,0 +1,106 @@
+Nov.-09 06:28:09.209 [main] DEBUG nextflow.cli.Launcher - $> nextflow run modules/setup.nf -c config/params.config
+Nov.-09 06:28:09.264 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 22.10.1
+Nov.-09 06:28:09.288 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/ubuntu/.nextflow/plugins; core-plugins: nf-amazon@1.11.0,nf-azure@0.14.2,nf-codecommit@0.1.2,nf-console@1.0.4,nf-ga4gh@1.0.4,nf-google@1.4.4,nf-tower@1.5.5,nf-wave@0.5.2
+Nov.-09 06:28:09.299 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Nov.-09 06:28:09.300 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Nov.-09 06:28:09.303 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+Nov.-09 06:28:09.313 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Nov.-09 06:28:09.333 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /data-weedomics-3/compare_genomes/config/params.config
+Nov.-09 06:28:09.333 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /data-weedomics-3/compare_genomes/config/params.config
+Nov.-09 06:28:09.354 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Nov.-09 06:28:10.056 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+Nov.-09 06:28:10.074 [main] INFO  nextflow.cli.CmdRun - Launching `modules/setup.nf` [ecstatic_ritchie] DSL2 - revision: d9c3670d04
+Nov.-09 06:28:10.075 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Nov.-09 06:28:10.075 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Nov.-09 06:28:10.084 [main] DEBUG nextflow.secret.LocalSecretsProvider - Secrets store: /home/ubuntu/.nextflow/secrets/store.json
+Nov.-09 06:28:10.087 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@1305c126] - activable => nextflow.secret.LocalSecretsProvider@1305c126
+Nov.-09 06:28:10.143 [main] DEBUG nextflow.Session - Session UUID: 85e3f5f8-db37-4bf8-9671-0afbeac23cb0
+Nov.-09 06:28:10.143 [main] DEBUG nextflow.Session - Run name: ecstatic_ritchie
+Nov.-09 06:28:10.143 [main] DEBUG nextflow.Session - Executor pool size: 8
+Nov.-09 06:28:10.153 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+Nov.-09 06:28:10.178 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 22.10.1 build 5828
+  Created: 27-10-2022 16:58 UTC 
+  System: Linux 5.15.0-33-generic
+  Runtime: Groovy 3.0.13 on OpenJDK 64-Bit Server VM 11.0.16+8-post-Ubuntu-0ubuntu122.04
+  Encoding: UTF-8 (UTF-8)
+  Process: 1469046@weedomics-vm-3 [127.0.1.1]
+  CPUs: 8 - Mem: 15.6 GB (5.9 GB) - Swap: 0 (0)
+Nov.-09 06:28:10.202 [main] DEBUG nextflow.Session - Work-dir: /data-weedomics-3/compare_genomes/work [ext2/ext3]
+Nov.-09 06:28:10.202 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /data-weedomics-3/compare_genomes/modules/bin
+Nov.-09 06:28:10.212 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Nov.-09 06:28:10.222 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Nov.-09 06:28:10.247 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Nov.-09 06:28:10.256 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
+Nov.-09 06:28:10.322 [main] DEBUG nextflow.Session - Session start
+Nov.-09 06:28:10.538 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Nov.-09 06:28:10.598 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:LOW_MEM_LOW_CPU` matches labels `LOW_MEM_LOW_CPU` for process with name SETUP_DIRECTORIES
+Nov.-09 06:28:10.688 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Nov.-09 06:28:10.689 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Nov.-09 06:28:10.696 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Nov.-09 06:28:10.702 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=8; memory=15.6 GB; capacity=8; pollInterval=100ms; dumpInterval=5m
+Nov.-09 06:28:10.819 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:LOW_MEM_LOW_CPU` matches labels `LOW_MEM_LOW_CPU` for process with name DOWNLOAD_OMICS_DATA
+Nov.-09 06:28:10.820 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Nov.-09 06:28:10.820 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Nov.-09 06:28:10.824 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:LOW_MEM_LOW_CPU` matches labels `LOW_MEM_LOW_CPU` for process with name DOWNLOAD_PANTHER_DATABASE
+Nov.-09 06:28:10.825 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Nov.-09 06:28:10.825 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Nov.-09 06:28:10.828 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:HIGH_MEM_HIGH_CPU` matches labels `HIGH_MEM_HIGH_CPU` for process with name INSTALL_JULIA_PACKAGES
+Nov.-09 06:28:10.830 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Nov.-09 06:28:10.830 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Nov.-09 06:28:10.833 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: DOWNLOAD_PANTHER_DATABASE, SETUP_DIRECTORIES, INSTALL_JULIA_PACKAGES, DOWNLOAD_OMICS_DATA
+Nov.-09 06:28:10.833 [main] DEBUG nextflow.Session - Igniting dataflow network (4)
+Nov.-09 06:28:10.834 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SETUP_DIRECTORIES
+Nov.-09 06:28:10.835 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > DOWNLOAD_OMICS_DATA
+Nov.-09 06:28:10.837 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > DOWNLOAD_PANTHER_DATABASE
+Nov.-09 06:28:10.837 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > INSTALL_JULIA_PACKAGES
+Nov.-09 06:28:10.838 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Nov.-09 06:28:10.838 [main] DEBUG nextflow.Session - Session await
+Nov.-09 06:28:11.061 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Nov.-09 06:28:11.064 [Task submitter] INFO  nextflow.Session - [8f/4fbf19] Submitted process > DOWNLOAD_PANTHER_DATABASE
+Nov.-09 06:28:11.072 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Nov.-09 06:28:11.073 [Task submitter] INFO  nextflow.Session - [d3/74c877] Submitted process > SETUP_DIRECTORIES
+Nov.-09 06:28:11.077 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Nov.-09 06:28:11.077 [Task submitter] INFO  nextflow.Session - [46/ff8646] Submitted process > DOWNLOAD_OMICS_DATA
+Nov.-09 06:28:11.081 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Nov.-09 06:28:11.083 [Task submitter] INFO  nextflow.Session - [f5/a19c96] Submitted process > INSTALL_JULIA_PACKAGES
+Nov.-09 06:28:11.130 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: SETUP_DIRECTORIES; status: COMPLETED; exit: 1; error: -; workDir: /data-weedomics-3/compare_genomes/work/d3/74c87718ba87d1d49465aeac1eaf29]
+Nov.-09 06:28:11.147 [Task monitor] ERROR nextflow.processor.TaskProcessor - Error executing process > 'SETUP_DIRECTORIES'
+
+Caused by:
+  Process `SETUP_DIRECTORIES` terminated with an error exit status (1)
+
+Command executed:
+
+  echo /data-weedomics-3
+  mkdir /data-weedomics-3/GENOMES
+  mkdir /data-weedomics-3/GFF
+  mkdir /data-weedomics-3/CDS
+  mkdir /data-weedomics-3/PROTEOMES
+
+Command exit status:
+  1
+
+Command output:
+  /data-weedomics-3
+
+Command error:
+  /data-weedomics-3
+  mkdir: cannot create directory ‘/data-weedomics-3/GENOMES’: File exists
+
+Work dir:
+  /data-weedomics-3/compare_genomes/work/d3/74c87718ba87d1d49465aeac1eaf29
+
+Tip: you can try to figure out what's wrong by changing to the process work dir and showing the script file named `.command.sh`
+Nov.-09 06:28:11.158 [Task monitor] DEBUG nextflow.Session - Session aborted -- Cause: Process `SETUP_DIRECTORIES` terminated with an error exit status (1)
+Nov.-09 06:28:11.180 [main] DEBUG nextflow.Session - Session await > all processes finished
+Nov.-09 06:28:11.181 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Nov.-09 06:28:11.183 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 4; name: DOWNLOAD_OMICS_DATA; status: COMPLETED; exit: 0; error: -; workDir: /data-weedomics-3/compare_genomes/work/46/ff86460d31741b4f81195f05058bf2]
+Nov.-09 06:28:11.187 [main] WARN  n.processor.TaskPollingMonitor - Killing running tasks (2)
+Nov.-09 06:28:11.199 [main] DEBUG n.executor.local.LocalTaskHandler - Unable to kill INSTALL_JULIA_PACKAGES -- command: kill -TERM 1469178; exit: 1 
+ bash: line 1: kill: (1469178) - No such process
+
+Nov.-09 06:28:11.200 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 3; name: INSTALL_JULIA_PACKAGES; status: COMPLETED; exit: 0; error: -; workDir: /data-weedomics-3/compare_genomes/work/f5/a19c9650c163750e04851b3be88a3b]
+Nov.-09 06:28:11.204 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=1; failedCount=1; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=-1; retriesCount=0; abortedCount=3; succeedDuration=2ms; failedDuration=30ms; cachedDuration=0ms;loadCpus=-5; loadMemory=0; peakRunning=2; peakCpus=5; peakMemory=10 GB; ]
+Nov.-09 06:28:11.370 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Nov.-09 06:28:11.387 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
