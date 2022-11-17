@@ -11,8 +11,12 @@ process FIND_ORTHOGROUPS {
     label "HIGH_MEM_HIGH_CPU"
     input:
         val dir
+        val src_julia_1
+        val src_julia_2
     output:
-        val 0
+        val dir
+        val src_julia_1
+        val src_julia_2
     shell:
     '''
     #!/usr/bin/env bash
@@ -25,6 +29,7 @@ process FIND_ORTHOGROUPS {
         species=${fname%.faa*}
         sed -i "s/^>/>$species|/g" $f
     done
+
     echo "Run OrthoFinder."
     orthofinder \
         -f PROTEOMES/ \
@@ -37,8 +42,11 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     input:
         val dir
         val src_julia_1
+        val src_julia_2
     output:
-        val 0
+        val dir
+        val src_julia_1
+        val src_julia_2
     shell:
     '''
     #!/usr/bin/env bash
@@ -94,7 +102,7 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     d=$3
     HMMODL=${DIR_PANTHER}/${d}/hmmer.hmm
     OUTEMP=${PROTFA}-hhmer_gene_family_hits-${d}.tmp
-    # hmmsearch -E 0.0001 --tblout ${OUTEMP} ${HMMODL} ${PROTFA}
+    hmmsearch -E 0.0001 --tblout ${OUTEMP} ${HMMODL} ${PROTFA}
     sed "/^#/d" ${OUTEMP} | awk @{print $1,$3,$5}@ > ${OUTEMP}.tmp
     if [ $(cat ${OUTEMP}.tmp | wc -l) -eq 0 ]
     then
@@ -104,7 +112,7 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     fi
     ' | sed "s/@/'/g" > hmmsearch_for_parallel_execution.sh
     chmod +x hmmsearch_for_parallel_execution.sh
-    parallel \
+    parallel -j !{task.cpus} \
     ./hmmsearch_for_parallel_execution.sh \
         ${MERGED_ORTHOGROUPS} \
         ${DIR_PANTHER} \
@@ -133,9 +141,12 @@ process ASSESS_ORTHOGROUPS_DISTRIBUTIONS {
     label "LOW_MEM_LOW_CPU"
     input:
         val dir
+        val src_julia_1
         val src_julia_2
     output:
-        val 0
+        val dir
+        val src_julia_1
+        val src_julia_2
     shell:
     '''
     #!/usr/bin/env bash
@@ -148,7 +159,7 @@ process ASSESS_ORTHOGROUPS_DISTRIBUTIONS {
 }
 
 workflow {
-    FIND_ORTHOGROUPS(params.dir)
-    ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS(params.dir, params.src_julia_1)
-    ASSESS_ORTHOGROUPS_DISTRIBUTIONS(params.dir, params.src_julia_2)
+    FIND_ORTHOGROUPS(params.dir, params.src_julia_1, params.src_julia_2) | \
+        ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS | \
+        ASSESS_ORTHOGROUPS_DISTRIBUTIONS
 }

@@ -11,8 +11,10 @@ process SETUP_DIRECTORIES {
     label "LOW_MEM_LOW_CPU"
     input:
         val dir
+        val urls
     output:
-        val 0
+        val dir
+        val urls
     shell:
     """
     echo $dir
@@ -91,11 +93,29 @@ process INSTALL_JULIA_PACKAGES {
     '''
 }
 
+process INSTALL_PANTHER_API_FORGO {
+    label "LOW_MEM_LOW_CPU"
+    input:
+        val dir
+    output:
+        val 0
+    shell:
+    '''
+    #!/usr/bin/env bash
+    cd !{dir}
+    git clone https://github.com/pantherdb/pantherapi-pyclient.git
+    cd pantherapi-pyclient
+    python3 -m venv env
+    # . env/bin/activate (bash) or source env/bin/activate.csh (C-shell or tcsh)
+    pip3 install -r requirements.txt
+    # test: python3 pthr_go_annots.py --service enrich --params_file params/enrich.json --seq_id_file resources/test_ids.txt
+    '''
+}
+
 workflow {
-    // def dir  = Channel.fromPath(params.dir)
-    // def urls = Channel.fromPath(params.urls)
-    SETUP_DIRECTORIES(params.dir)
-    DOWNLOAD_OMICS_DATA(params.dir, params.urls)
+    SETUP_DIRECTORIES(params.dir, params.urls) | \
+        DOWNLOAD_OMICS_DATA
     DOWNLOAD_PANTHER_DATABASE(params.dir)
     INSTALL_JULIA_PACKAGES(params.dir)
+    INSTALL_PANTHER_API_FORGO(params.dir)
 }

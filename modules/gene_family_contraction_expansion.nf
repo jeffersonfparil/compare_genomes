@@ -37,13 +37,17 @@ process CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION {
         --pvalue !{cafe5_pvalue} \
         --output_prefix CAFE_results
     echo -e "Species\tExpansion\tContraction" > CONTRACTION_EXPANSION.txt
-    grep -v "^#" ${DIR}/CAFE_results/Gamma_clade_results.txt | \
+    grep -v "^#" CAFE_results/Gamma_clade_results.txt | \
         grep -v "^<" | \
         sed 's/<..>//g' | \
         sed 's/<.>//g' >> CONTRACTION_EXPANSION.txt
+
+    rm col1.tmp counts.tmp
     '''
 }
 
 workflow {
-    CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION(params.dir, params.cafe5_n_gamma_cats, params.cafe5_pvalue)
+    CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION(params.dir,
+                                            params.cafe5_n_gamma_cats,
+                                            params.cafe5_pvalue)
 }
