@@ -1,6 +1,7 @@
 using ProgressMeter
 
 ### BE SURE TO REPLACE "|" in the sequence_name_query input
+### Argument parsing needs refactoring LOL
 
 fasta_input = ARGS[1]
 sequence_name_query_vec = ARGS[2:(length(ARGS)-3)]

@@ -1,3 +1,2 @@
-Arabidopsis_thaliana,Oryza_sativa     -160.00
-Sorghum_bicolor,Lolium_perenne               -62.00
-Lolium_perenne,Lolium_rigidum                 -2.74
+Arabidopsis_thaliana,Oryza_sativa   -160.00
+Oryza_sativa,Lolium_rigidum          -46.00

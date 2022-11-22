@@ -22,7 +22,6 @@ process GO_TERM_ENRICHMENT {
     '''
     #!/usr/bin/env bash
     cd !{dir}
-    
     ORTHOUT=PROTEOMES/orthogroups_gene_counts_families_go.out
     n=$(head -n1 CAFE_results/Gamma_change.tab | sed -z "s/\\t/\\n/g" | grep -n "!{species_of_interest}" | cut -d":" -f1)
     cut -f1,${n} CAFE_results/Gamma_change.tab | grep -v "+0" | grep "+" | cut -f1 > expanded_orthogroups_for_grep.tmp

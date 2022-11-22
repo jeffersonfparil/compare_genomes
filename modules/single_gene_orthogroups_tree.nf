@@ -80,10 +80,8 @@ process ALIGN_SINGLE_GENE_ORTHOGROUPS {
     '''
     #!/usr/bin/env bash
     cd !{dir}
-    
     echo '#!/bin/bash
     f=$1
-    MACSE=$2
     ORTHOLOG=${f%.fasta*}
     # Align the CDS across species
     macse \
@@ -107,8 +105,9 @@ process ALIGN_SINGLE_GENE_ORTHOGROUPS {
     chmod +x parallel_align_cds.sh
     time \
     parallel -j !{task.cpus} \
-    ./parallel_align_cds.sh {} ${MACSE} \
-    ::: $(ls OG*.fasta)
+    ./parallel_align_cds.sh \
+        {} \
+        ::: $(ls OG*.fasta)
     ### Cleanup
     rm parallel_align_cds.sh
     '''
@@ -183,66 +182,38 @@ process BUILD_TREE {
     BOOTSTRAP_REPS=1000
     THREADS=!{task.cpus}
     TIP_DATE=0
-    iqtree2 \
-        -s ORTHOGROUPS_SINGLE_GENE.${TYPE%.*}.aln \
-        -p alignment_parition.${TYPE%.*}.nex \
-        -B ${BOOTSTRAP_REPS} \
-        -T ${THREADS} \
-        --date !{dates} \
-        --date-tip ${TIP_DATE} \
-        --prefix ORTHOGROUPS_SINGLE_GENE.${TYPE%.*} \
-        --redo
+    ### Use bootstrapping if you have more than 4 species
+    n_species=$(grep "^>" ORTHOGROUPS_SINGLE_GENE.${TYPE%.*}.aln | wc -l)
+    if [ ${n_species} -gt 4 ]
+    then
+        iqtree2 \
+            -s ORTHOGROUPS_SINGLE_GENE.${TYPE%.*}.aln \
+            -p alignment_parition.${TYPE%.*}.nex \
+            -B ${BOOTSTRAP_REPS} \
+            -T ${THREADS} \
+            --date !{dates} \
+            --date-tip ${TIP_DATE} \
+            --prefix ORTHOGROUPS_SINGLE_GENE.${TYPE%.*} \
+            --redo
+    else    
+        iqtree2 \
+            -s ORTHOGROUPS_SINGLE_GENE.${TYPE%.*}.aln \
+            -p alignment_parition.${TYPE%.*}.nex \
+            -T ${THREADS} \
+            --date !{dates} \
+            --date-tip ${TIP_DATE} \
+            --prefix ORTHOGROUPS_SINGLE_GENE.${TYPE%.*} \
+            --redo
+    fi
+    ### Cleanup
+    rm OG*.fasta
+    rm single_gene_list.*
+    rm *-${TYPE%.*}.aln
     '''
 }
 
 workflow {
-    // IDENTIFY_SINGLE_GENE_ORTHOGROUPS(params.dir, params.src_julia_3, params.src_julia_4, params.src_julia_5, params.dates) | \
-    //     ALIGN_SINGLE_GENE_ORTHOGROUPS | \
-        BUILD_TREE(params.dir, params.src_julia_4, params.src_julia_5, params.dates)
+    IDENTIFY_SINGLE_GENE_ORTHOGROUPS(params.dir, params.src_julia_3, params.src_julia_4, params.src_julia_5, params.dates) | \
+        ALIGN_SINGLE_GENE_ORTHOGROUPS | \
+        BUILD_TREE
 }
-
-
-// 2. Extract the CDS of these genes (Outputs: ${ORTHONAME}.fasta [includes sequences from each species]):
-// ```shell
-
-// ```
-
-// 3. Align CDS (Outputs: ${ORTHOLOG}.NT.cds [nucleotide alignments] and ${ORTHOLOG}.AA.prot [amino acid alignments])
-// ```shell
-
-// ```
-
-// 4. Build the tree (Output: ORTHOGROUPS_SINGLE_GENE.NT.timetree.nex)
-// ```shell
-
-
-
-
-// 5. **Additional**: Compute pairwise 4DTv (Output: ORTHOGROUPS_SINGLE_GENE.NT.4DTv)
-// ```shell
-// ### Compute the transversion rate among 4-fold degenerate sites (Output: ${ORTHOLOG}.NT.cds.4DTv.tmp)
-// time \
-// parallel \
-// julia calculate_4DTv.jl {1} {1}.4DTv.tmp \
-//     ::: $(ls *.NT.cds)
-// ### Concatenate pairwise 4DTv among species across single-copy orthogroups
-// echo -e "ORTHOGROUP\tSPECIES_1\tSPECIES_2\tn4D_sites\tnTv4D_sites\t4DTv" > ORTHOGROUPS_SINGLE_GENE.${TYPE%.*}.4DTv
-// for f in $(ls *.cds.4DTv.tmp)
-// do
-//     # f=$(ls *.cds.4DTv.tmp | head -n10 | tail -n1)
-//     n=$(cat $f | wc -l)
-//     printf "${f%.${TYPE}*}\n%.0s" $(seq 1 $n) > col1.tmp
-//     sed -z "s/ /\t/g" $f | sed -z "s/:/\t/g"  > col2n.tmp
-//     paste col1.tmp col2n.tmp >> ORTHOGROUPS_SINGLE_GENE.${TYPE%.*}.4DTv
-// done
-// ```
-
-// 6. Clean-up
-// ```shell
-// rm OG*.fasta
-// rm OG*.NT.cds
-// rm single_gene_list.*
-// rm dates.txt
-// rm *-${TYPE%.*}.aln
-// rm *.tmp
-// ```
