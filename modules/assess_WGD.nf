@@ -13,6 +13,7 @@ process ASSESS_WGD {
         val dir
         val src_shell_1
         val src_julia_4
+        val src_julia_6
     output:
         val 0
     shell:
@@ -40,6 +41,7 @@ process ASSESS_WGD {
        bash !{src_shell_1} \
            {} \
            !{src_julia_4} \
+           !{src_julia_6} \
            ::: $(seq 1 $(cat multi_gene_list.geneNames | wc -l))
        ### Concatenate 4DTv estimates
        cat *.4DTv.tmp > ${SPECIES}.4DTv
@@ -56,5 +58,6 @@ process ASSESS_WGD {
 workflow {
     ASSESS_WGD(params.dir,
                params.src_shell_1,
-               params.src_julia_4)
+               params.src_julia_4, 
+               params.src_julia_6)
 }

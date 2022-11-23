@@ -2,6 +2,7 @@
 ### NOTE: The file: multi_gene_list.geneNames contains the gene names of one species. The gene names are in the second column (space-delimited), and each gene is comma-space-delimited
 j=$1            ### Line number corresponding to the current gene
 src_julia_4=$2  ### Julia script to extract sequences using sequence names
+src_julia_6=$3  ### Julia script to calculate 4DTv
 # j=1017
 line=$(head -n${j} multi_gene_list.geneNames | tail -n1)
 ORTHONAME=$(echo $line | cut -d" " -f1)
@@ -39,6 +40,10 @@ macse \
     -codonForInternalFS --- \
     -out_NT ${ORTHONAME}.NT.cds \
     -out_AA ${ORTHONAME}.AA.prot
+# Calculate 4DTv (i.e. the ratio of the number of 4-fold degenerate codons with transversion and the total number of 4-fold degenerate codons)
+julia ${src_julia_6} \
+    ${ORTHONAME}.NT.cds \
+    ${ORTHONAME}.4DTv.tmp
 # Clean-up
 rm ${ORTHONAME}*.fasta
 rm ${ORTHONAME}.aligned.unsorted*.tmp ${ORTHONAME}.NT.cds ${ORTHONAME}.AA.prot
