@@ -26,9 +26,9 @@ process ASSESS_WGD {
     ORTHOUT=PROTEOMES/orthogroups_gene_counts_families_go.out
     echo "Identify multi-copy paralogs (2 to 5 copies) per species, align, and estimate 4DTv"
     head -n1 ${ORTHOUT} | rev | cut -f5- | rev | cut -f2- | sed -z "s/\\t/\\n/g" > species_names.tmp
-    # for i in $(seq 1 $(cat species_names.tmp | wc -l))
-    # do
-       i=1
+    for i in $(seq 1 $(cat species_names.tmp | wc -l))
+    do
+       # i=1
        ### Extract species name
        SPECIES=$(head -n${i} species_names.tmp | tail -n1)
        idx=$(echo $i + 1 | bc)
@@ -46,12 +46,12 @@ process ASSESS_WGD {
        ### Concatenate 4DTv estimates
        cat *.4DTv.tmp > ${SPECIES}.4DTv
        ### Clean-up
-       # rm *.4DTv.tmp
-       # rm multi_gene_list.grep
-       # rm multi_gene_list.geneNames
-    # done
+       rm *.4DTv.tmp
+       rm multi_gene_list.grep
+       rm multi_gene_list.geneNames
+    done
     ### Clean-up
-    # rm species_names.tmp
+    rm species_names.tmp
     '''
 }
 
