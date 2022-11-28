@@ -24,7 +24,7 @@ process CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION {
     DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
     DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
 
-    ORTHOUT=PROTEOMES/orthogroups_gene_counts_families_go.out
+    ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
     rev ${ORTHOUT} | cut -f5- | rev > col2_to_coln.tmp
     awk -F'\t' '{print $(NF-1)}' ${ORTHOUT} > col1.tmp
     paste -d'\t' col1.tmp col2_to_coln.tmp > counts.tmp
@@ -42,7 +42,11 @@ process CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION {
         sed 's/<..>//g' | \
         sed 's/<.>//g' >> CONTRACTION_EXPANSION.txt
 
+    echo "Cleanup"
     rm col1.tmp counts.tmp
+
+    echo "Output:"
+    echo "  (1/1) ORTHOGROUPS_SINGLE_GENE.NT.4DTv"
     '''
 }
 

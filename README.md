@@ -61,12 +61,13 @@ sudo mv nextflow /usr/bin
 ```shell
 git clone https://github.com/jeffersonfparil/compare_genomes.git
 cd compare_genomes
-nextflow run modules/setup.nf                             -c config/params.config
-nextflow run modules/orthofinder.nf                       -c config/params.config
-nextflow run modules/gene_family_contraction_expansion.nf -c config/params.config ### Thismay take days depending on your machine, number of species, and proteome sizes
-nextflow run modules/GO_enrichment.nf                     -c config/params.config
-nextflow run modules/single_gene_orthogroups_tree.nf      -c config/params.config
-nextflow run modules/single_gene_orthogroups_4DTv.nf      -c config/params.config
-nextflow run modules/assess_WGD.nf                        -c config/params.config
+nextflow run modules/setup.nf                               -c config/params.config
+nextflow run modules/orthofinder.nf                         -c config/params.config
+nextflow run modules/gene_family_contraction_expansion.nf   -c config/params.config ### Thismay take days depending on your machine, number of species, and proteome sizes
+nextflow run modules/GO_enrichment.nf                       -c config/params.config
+nextflow run modules/single_gene_orthogroups_tree.nf        -c config/params.config
+nextflow run modules/single_gene_orthogroups_4DTv.nf        -c config/params.config
+nextflow run modules/assess_WGD.nf                          -c config/params.config
+nextflow run modules/assess_specific_genes.nf               -c config/params.config
 ```
 

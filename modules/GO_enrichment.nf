@@ -21,18 +21,21 @@ process GO_TERM_ENRICHMENT {
     shell:
     '''
     #!/usr/bin/env bash
+    echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
     cd !{dir}
-    ORTHOUT=PROTEOMES/orthogroups_gene_counts_families_go.out
+    ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
     n=$(head -n1 CAFE_results/Gamma_change.tab | sed -z "s/\\t/\\n/g" | grep -n "!{species_of_interest}" | cut -d":" -f1)
     cut -f1,${n} CAFE_results/Gamma_change.tab | grep -v "+0" | grep "+" | cut -f1 > expanded_orthogroups_for_grep.tmp
     cut -f1,${n} CAFE_results/Gamma_change.tab | grep -v "+" | cut -f1 > contracted_orthogroups_for_grep.tmp
 
+    echo "List significantly expanded and contracted genes"
     grep -wf expanded_orthogroups_for_grep.tmp $ORTHOUT | cut -f$(head -n1 $ORTHOUT | awk '{printf NF-2}') | grep -v "^$" > expanded_orthogroups.pthr.tmp
     grep -wf contracted_orthogroups_for_grep.tmp $ORTHOUT | cut -f$(head -n1 $ORTHOUT | awk '{printf NF-2}') | grep -v "^$" > contracted_orthogroups.pthr.tmp
     wget !{species_of_interest_panther_HMM_for_gene_names_url} -O PTHR_unzipped
     grep -wf expanded_orthogroups.pthr.tmp PTHR_unzipped | cut -f3 | sed "s/^LOC_//g"> expanded_orthogroups.forgo
     grep -wf contracted_orthogroups.pthr.tmp PTHR_unzipped | cut -f3 > contracted_orthogroups.forgo
 
+    echo "Prepare the json file for the Pather GO API"
     echo "{
         \\"organism\\": \\"!{go_term_enrich_genome_id}\\",
         \\"refOrganism\\": \\"!{go_term_enrich_genome_id}\\",
@@ -41,7 +44,7 @@ process GO_TERM_ENRICHMENT {
         \\"correction\\": \\"!{go_term_enrich_correction}\\"
     }" > go_term_enrich.json
 
-    ### Shuffle lines
+    echo "Shuffle lines"
     for i in $(seq 1 !{go_term_enrich_ntests})
     do
         shuf \
@@ -54,7 +57,12 @@ process GO_TERM_ENRICHMENT {
             --seq_id_file expanded_orthogroups.forgo.${i}.shuffled > \
             expanded_orthogroups.${i}.goout
     done
+
+    echo "Cleanup"
     rm PTHR_unzipped *.tmp
+
+    echo "Output:"
+    echo "  (1/1) expanded_orthogroups.{i}.goout"
     '''
 }
 

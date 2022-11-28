@@ -11,9 +11,6 @@ process ASSESS_WGD {
     label "HIGH_MEM_HIGH_CPU"
     input:
         val dir
-        val src_shell_1
-        val src_julia_4
-        val src_julia_6
     output:
         val 0
     shell:
@@ -23,7 +20,8 @@ process ASSESS_WGD {
     cd !{dir}
     DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
     DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
-    ORTHOUT=PROTEOMES/orthogroups_gene_counts_families_go.out
+    ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
+
     echo "Identify multi-copy paralogs (2 to 5 copies) per species, align, and estimate 4DTv"
     head -n1 ${ORTHOUT} | rev | cut -f5- | rev | cut -f2- | sed -z "s/\\t/\\n/g" > species_names.tmp
     for i in $(seq 1 $(cat species_names.tmp | wc -l))
@@ -38,10 +36,10 @@ process ASSESS_WGD {
        grep -f multi_gene_list.grep ${DIR_ORTHOGROUPS}/Orthogroups/Orthogroups.tsv | cut -f1,${idx} > multi_gene_list.geneNames
        ### Extract CDS, and align in parallel
        parallel -j !{task.cpus} \
-       bash !{src_shell_1} \
+       bash !{projectDir}/../scripts/extract_multi_gene_orthogroups.sh \
            {} \
-           !{src_julia_4} \
-           !{src_julia_6} \
+           !{projectDir}/../scripts/extract_sequence_using_name_query.jl \
+           !{projectDir}/../scripts/reformat_fasta_sequence.jl \
            ::: $(seq 1 $(cat multi_gene_list.geneNames | wc -l))
        ### Concatenate 4DTv estimates
        cat *.4DTv.tmp > ${SPECIES}.4DTv
@@ -50,14 +48,15 @@ process ASSESS_WGD {
        rm multi_gene_list.grep
        rm multi_gene_list.geneNames
     done
-    ### Clean-up
+
+    echo "Clean-up"
     rm species_names.tmp
+
+    echo "Output:"
+    echo "  (1/1) {SPECIES}.4DTv"
     '''
 }
 
 workflow {
-    ASSESS_WGD(params.dir,
-               params.src_shell_1,
-               params.src_julia_4, 
-               params.src_julia_6)
+    ASSESS_WGD(params.dir)
 }

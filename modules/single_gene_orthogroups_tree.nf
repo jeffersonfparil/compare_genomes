@@ -11,14 +11,9 @@ process IDENTIFY_SINGLE_GENE_ORTHOGROUPS {
     label "HIGH_MEM_HIGH_CPU"
     input:
         val dir
-        val src_julia_3
-        val src_julia_4
-        val src_julia_5
         val dates
     output:
         val dir
-        val src_julia_4
-        val src_julia_5
         val dates
     shell:
     '''
@@ -29,14 +24,15 @@ process IDENTIFY_SINGLE_GENE_ORTHOGROUPS {
     DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
     DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
 
-    echo "Find the single-gene orthogroups for all species"
-    ORTHOUT=PROTEOMES/orthogroups_gene_counts_families_go.out
+    echo "List single-gene orthogroups for all species"
+    ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
     NSPECIES=$(ls PROTEOMES/*.faa | grep -v "orthogroups.faa" | wc -l)
-    julia !{src_julia_3} \
+    julia !{projectDir}/../scripts/extract_single_gene_orthogroups.jl \
         ${ORTHOUT} \
         ${NSPECIES} ### output: single_gene_list.grep
     grep -f single_gene_list.grep ${DIR_ORTHOGROUPS}/Orthogroups/Orthogroups.tsv > single_gene_list.geneNames
 
+    echo "Find the single-gene orthogroups for all species"
     echo '#!/bin/bash
     i=$1
     line=$(head -n${i} single_gene_list.geneNames | tail -n1)
@@ -45,7 +41,7 @@ process IDENTIFY_SINGLE_GENE_ORTHOGROUPS {
     do
         SPECIES=$(echo $name | cut -d"|" -f1)
         GENE_NAME=$(echo $name | cut -d"|" -f2)
-        julia !{src_julia_4} \
+        julia !{projectDir}/../scripts/extract_sequence_using_name_query.jl \
             CDS/${SPECIES}.cds \
             ${GENE_NAME} \
             ${ORTHONAME}-${SPECIES}.fasta \
@@ -57,10 +53,16 @@ process IDENTIFY_SINGLE_GENE_ORTHOGROUPS {
     ' > parallel_extract_single_gene_orthogroups.sh
     chmod +x parallel_extract_single_gene_orthogroups.sh
     parallel -j !{task.cpus} \
-    ./parallel_extract_single_gene_orthogroups.sh {} ::: $(seq 1 $(cat single_gene_list.geneNames | wc -l))
-    ### Cleanup
+        ./parallel_extract_single_gene_orthogroups.sh \
+            {} ::: $(seq 1 $(cat single_gene_list.geneNames | wc -l))
+    
+    echo "Cleanup"
     rm single_gene_list.grep 
     rm parallel_extract_single_gene_orthogroups.sh
+    
+    echo "Output:"
+    echo "  (1/2) {ORTHONAME}.fasta"
+    echo "  (2/2) {ORTHONAME}-{SPECIES}.fasta"
     '''
 }
 
@@ -68,13 +70,9 @@ process ALIGN_SINGLE_GENE_ORTHOGROUPS {
     label "HIGH_MEM_HIGH_CPU"
     input:
         val dir
-        val src_julia_4
-        val src_julia_5
         val dates
     output:
         val dir
-        val src_julia_4
-        val src_julia_5
         val dates
     shell:
     '''
@@ -108,8 +106,12 @@ process ALIGN_SINGLE_GENE_ORTHOGROUPS {
     ./parallel_align_cds.sh \
         {} \
         ::: $(ls OG*.fasta)
-    ### Cleanup
+    
+    echo "Cleanup"
     rm parallel_align_cds.sh
+    
+    echo "Output:"
+    echo "  (1/1) {ORTHOLOG}.NT.cds"
     '''
 }
 
@@ -117,20 +119,18 @@ process BUILD_TREE {
     label "HIGH_MEM_HIGH_CPU"
     input:
         val dir
-        val src_julia_4
-        val src_julia_5
         val dates
     output:
-        val dir
+        val 0
     shell:
     '''
     #!/usr/bin/env bash
     cd !{dir}
     
+    echo "Extract sequences per species (Outputs: {ORTHONAME}-{SPECIES}.fasta)"
     TYPE=NT.cds
-    ### Extract sequences per species (Outputs: ${ORTHONAME}-${SPECIES}.fasta)
     parallel -j !{task.cpus} \
-    julia !{src_julia_4} \
+    julia !{projectDir}/../scripts/extract_sequence_using_name_query.jl \
         {1}.${TYPE} \
         {2} \
         {1}-{2}.fasta \
@@ -139,7 +139,7 @@ process BUILD_TREE {
     ::: $(ls *.${TYPE} | sed "s/.$TYPE//g") \
     ::: $(grep "^>" $(ls *.${TYPE} | head -n1) | sed 's/^>//g')
 
-    ### Concatenate alignments per species (Outputs: ${SPECIES}.aln)
+    echo "Concatenate alignments per species (Outputs: {SPECIES}.aln)"
     for SPECIES in $(grep "^>" $(ls *.${TYPE} | head -n1) | sed 's/^>//g')
     do
         echo $SPECIES
@@ -150,14 +150,14 @@ process BUILD_TREE {
             sed '/^>/d' $f | sed -z 's/\\n//g' >> ${SPECIES}.aln.tmp
         done
         echo "" >> ${SPECIES}.aln.tmp
-        julia !{src_julia_5} \
+        julia !{projectDir}/../scripts/reformat_fasta_sequence.jl \
             ${SPECIES}.aln.tmp \
             50 \
             ${SPECIES}-${TYPE%.*}.aln
         rm ${SPECIES}.aln.tmp
     done
 
-    ### Extract sequence lengths to build the sequence partitioning nexus file (Output: alignment_parition.${TYPE%.*}.nex)
+    echo "Extract sequence lengths to build the sequence partitioning nexus file (Output: alignment_parition.NT.nex)"
     SPECIES=$(grep "^>" $(ls *.${TYPE} | head -n1) | sed 's/^>//g' | head -n1)
     echo '#nexus
     begin sets;' > alignment_parition.${TYPE%.*}.nex
@@ -174,11 +174,11 @@ process BUILD_TREE {
     done
     echo 'end;' >> alignment_parition.${TYPE%.*}.nex
 
-    ### Concatenate species alignments (Output: ORTHOGROUPS_SINGLE_GENE.${TYPE%.*}.aln)
+    echo "Concatenate species alignments (Output: ORTHOGROUPS_SINGLE_GENE.NT.aln)"
     cat *-${TYPE%.*}.aln > ORTHOGROUPS_SINGLE_GENE.${TYPE%.*}.aln.tmp
     mv ORTHOGROUPS_SINGLE_GENE.${TYPE%.*}.aln.tmp ORTHOGROUPS_SINGLE_GENE.${TYPE%.*}.aln
 
-    ### Build tree
+    echo "Build tree"
     BOOTSTRAP_REPS=1000
     THREADS=!{task.cpus}
     TIP_DATE=0
@@ -205,15 +205,30 @@ process BUILD_TREE {
             --prefix ORTHOGROUPS_SINGLE_GENE.${TYPE%.*} \
             --redo
     fi
-    ### Cleanup
+
+    echo "Cleanup"
     rm OG*.fasta
     rm single_gene_list.*
     rm *-${TYPE%.*}.aln
+    
+    echo "Output:"
+    echo "  (01/12) ORTHOGROUPS_SINGLE_GENE.NT.best_scheme.nex"
+    echo "  (02/12) ORTHOGROUPS_SINGLE_GENE.NT.best_scheme"
+    echo "  (03/12) ORTHOGROUPS_SINGLE_GENE.NT.model.gz"
+    echo "  (04/12) ORTHOGROUPS_SINGLE_GENE.NT.mldist"
+    echo "  (05/12) ORTHOGROUPS_SINGLE_GENE.NT.bionj"
+    echo "  (06/12) ORTHOGROUPS_SINGLE_GENE.NT.best_model.nex"
+    echo "  (07/12) ORTHOGROUPS_SINGLE_GENE.NT.treefile"
+    echo "  (08/12) ORTHOGROUPS_SINGLE_GENE.NT.iqtree"
+    echo "  (09/12) ORTHOGROUPS_SINGLE_GENE.NT.timetree.nwk"
+    echo "  (10/12) ORTHOGROUPS_SINGLE_GENE.NT.timetree.nex"
+    echo "  (11/12) ORTHOGROUPS_SINGLE_GENE.NT.timetree.lsd"
+    echo "  (12/12) ORTHOGROUPS_SINGLE_GENE.NT.ckp.gz"
     '''
 }
 
 workflow {
-    IDENTIFY_SINGLE_GENE_ORTHOGROUPS(params.dir, params.src_julia_3, params.src_julia_4, params.src_julia_5, params.dates) | \
+    IDENTIFY_SINGLE_GENE_ORTHOGROUPS(params.dir, params.dates) | \
         ALIGN_SINGLE_GENE_ORTHOGROUPS | \
         BUILD_TREE
 }

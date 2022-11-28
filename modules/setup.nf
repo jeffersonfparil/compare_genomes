@@ -115,6 +115,7 @@ process INSTALL_PANTHER_API_FORGO {
 workflow {
     SETUP_DIRECTORIES(params.dir, params.urls) | \
         DOWNLOAD_OMICS_DATA
+    // Execute in parallel:
     DOWNLOAD_PANTHER_DATABASE(params.dir)
     INSTALL_JULIA_PACKAGES(params.dir)
     INSTALL_PANTHER_API_FORGO(params.dir)

@@ -11,12 +11,8 @@ process FIND_ORTHOGROUPS {
     label "HIGH_MEM_HIGH_CPU"
     input:
         val dir
-        val src_julia_1
-        val src_julia_2
     output:
         val dir
-        val src_julia_1
-        val src_julia_2
     shell:
     '''
     #!/usr/bin/env bash
@@ -34,6 +30,9 @@ process FIND_ORTHOGROUPS {
     orthofinder \
         -f PROTEOMES/ \
         -t !{task.cpus}
+    
+    echo "Output:"
+    echo "  (1/1) PROTEOMES/OrhoFinder/Results_{Mmmdd}"
     '''
 }
 
@@ -41,12 +40,8 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     label "HIGH_MEM_HIGH_CPU"
     input:
         val dir
-        val src_julia_1
-        val src_julia_2
     output:
         val dir
-        val src_julia_1
-        val src_julia_2
     shell:
     '''
     #!/usr/bin/env bash
@@ -127,13 +122,16 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     
     echo "Find the best fitting gene family to each unique sequence per orthogroup. This means that each orthogroup can have multiple gene families. Next, add family name and GO terms to each gene family."
     grep "^>" ${MERGED_ORTHOGROUPS} | cut -d':' -f1 | sed 's/>//g' | sort | uniq > all_orthogroups.tmp
-    julia !{src_julia_1} \
+    julia !{projectDir}/scripts/orthogroup_classification_gene_family_GO_terms.jl \
             PROTEOMES/orthogroups.pthr \
             PantherHMM_17.0/Panther17.0_HMM_familyIDs.txt \
             all_orthogroups.tmp \
             ${DIR_ORTHOGROUPS}/Orthogroups/Orthogroups.GeneCount.tsv \
             ${DIR_ORTHOGROUPS}/Orthogroups/Orthogroups_UnassignedGenes.tsv \
             PROTEOMES/orthogroups_gene_counts_families_go.out
+
+    echo "Output:"
+    echo "  (1/1) PROTEOMES/orthogroups_gene_counts_families_go.out"
     '''
 }
 
@@ -141,25 +139,24 @@ process ASSESS_ORTHOGROUPS_DISTRIBUTIONS {
     label "LOW_MEM_LOW_CPU"
     input:
         val dir
-        val src_julia_1
-        val src_julia_2
     output:
-        val dir
-        val src_julia_1
-        val src_julia_2
+        0
     shell:
     '''
     #!/usr/bin/env bash
     cd !{dir}
     echo "Preliminary assessment of the distribution of the genes, orthogroups and gene family classifications."
-    julia !{src_julia_2} \
+    julia !{projectDir}/scripts/count_genes_per_ortholog_paralog_classes.jl \
         PROTEOMES/orthogroups_gene_counts_families_go.out \
         PROTEOMES/orthogroups_summarised_gene_counts.csv
+
+    echo "Output:"
+    echo "  (1/1) PROTEOMES/orthogroups_summarised_gene_counts.csv"
     '''
 }
 
 workflow {
-    FIND_ORTHOGROUPS(params.dir, params.src_julia_1, params.src_julia_2) | \
+    FIND_ORTHOGROUPS(params.dir) | \
         ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS | \
         ASSESS_ORTHOGROUPS_DISTRIBUTIONS
 }
