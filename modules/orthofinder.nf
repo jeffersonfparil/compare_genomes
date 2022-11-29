@@ -122,7 +122,7 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     
     echo "Find the best fitting gene family to each unique sequence per orthogroup. This means that each orthogroup can have multiple gene families. Next, add family name and GO terms to each gene family."
     grep "^>" ${MERGED_ORTHOGROUPS} | cut -d':' -f1 | sed 's/>//g' | sort | uniq > all_orthogroups.tmp
-    julia !{projectDir}/scripts/orthogroup_classification_gene_family_GO_terms.jl \
+    julia !{projectDir}/../scripts/orthogroup_classification_gene_family_GO_terms.jl \
             PROTEOMES/orthogroups.pthr \
             PantherHMM_17.0/Panther17.0_HMM_familyIDs.txt \
             all_orthogroups.tmp \
@@ -146,7 +146,7 @@ process ASSESS_ORTHOGROUPS_DISTRIBUTIONS {
     #!/usr/bin/env bash
     cd !{dir}
     echo "Preliminary assessment of the distribution of the genes, orthogroups and gene family classifications."
-    julia !{projectDir}/scripts/count_genes_per_ortholog_paralog_classes.jl \
+    julia !{projectDir}/../scripts/count_genes_per_ortholog_paralog_classes.jl \
         PROTEOMES/orthogroups_gene_counts_families_go.out \
         PROTEOMES/orthogroups_summarised_gene_counts.csv
 

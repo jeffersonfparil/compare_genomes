@@ -21,9 +21,9 @@ conda config --add channels conda-forge
 
 3. Create a new conda environment
 ```shell
-conda create --name "adder"
+conda create --name "compare_genomes"
 conda env list
-conda activate adder
+conda activate compare_genomes
 ```
 
 4. Install software
@@ -37,17 +37,19 @@ conda install -y -c bioconda macse
 conda install -y -c bioconda iqtree
 conda install -y -c bioconda kakscalculator2
 conda install -y -c conda-forge r-ape
+conda install -y -c conda-forge r-VennDiagram
+conda install -y -c conda-forge r-png
 ```
 
 5. Export environment and create a new environment based on the exported settings
 ```shell
 # Export
-conda env export -n adder > adder.yml
+conda env export -n compare_genomes > compare_genomes.yml
 ```
 
 6. Import conda environment
 ```shell
-conda env create -n adder_import --file adder.yml
+conda env create -n compare_genomes_import --file compare_genomes.yml
 ```
 
 7. Install nextflow but first install java
@@ -68,6 +70,9 @@ nextflow run modules/GO_enrichment.nf                       -c config/params.con
 nextflow run modules/single_gene_orthogroups_tree.nf        -c config/params.config
 nextflow run modules/single_gene_orthogroups_4DTv.nf        -c config/params.config
 nextflow run modules/assess_WGD.nf                          -c config/params.config
+
+nextflow run modules/plot_tree_conex_venn_4DTv.nf           -c config/params.config
+
 nextflow run modules/assess_specific_genes.nf               -c config/params.config
 ```
 
