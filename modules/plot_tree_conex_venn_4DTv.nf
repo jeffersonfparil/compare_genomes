@@ -25,5 +25,5 @@ process PLOT {
 }
 
 workflow {
-    KAKS(params.dir)
+    PLOT(params.dir)
 }

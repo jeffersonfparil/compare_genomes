@@ -447,12 +447,11 @@ process KAKS {
             ::: $(ls *.pw)
 
     echo "Cleanup"
-    
+    rm *.tmp
 
     echo "Output:"
-    echo "  (1/3) {gene}-{ortho}.cds"
-    echo "  (2/3) {gene}-{ortho}.aln"
-    echo "  (3/3) {gene}-{ortho}.aln.pw"
+    echo "  (1/2) {gene}-{ortho}.aln-{i}.kaks.svg"
+    echo "  (2/2) {gene}-{ortho}.aln-{i}.kaks-SIGNIFICANT_PEAKS.csv"
     '''
 }
 
