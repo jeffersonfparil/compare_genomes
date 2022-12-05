@@ -208,6 +208,11 @@ process EXTRACT_GENE_CDS {
     shell:
     '''
     #!/usr/bin/env bash
+    echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
+    cd !{dir}
+    DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
+    DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
+    
     echo "Extract species names and number of species"
     cd !{dir}/SPECIFIC_GENES/
     head -n1 ${DIR_ORTHOGROUPS}/Orthogroups/Orthogroups.tsv | cut -f2- > species_names.tmp
