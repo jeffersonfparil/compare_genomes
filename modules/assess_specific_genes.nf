@@ -1,6 +1,6 @@
-////////////////////////////
-// ASSESS SPECIFIC GENES  //
-////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ASSESS SPECIFIC GENES FOR SIGNIFICANT EXPANSION AND CONTRACTION AS WELL AS NON-SYNONYMOUS/SYNONYMOUS NUCLEOTIDE SUBSTITUTION  //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Assumed extension names:
 //  - genome: *.fna
 //  - annotation: *.gff
@@ -422,6 +422,7 @@ process KAKS {
     shell:
     '''
     #!/usr/bin/env bash
+    echo "Assess the ratios between non-synonymous (Ka) to synonymous (Ks) nucleotide substitution between pairs of genes across gene families and species"
     echo "KaKs_calculator2 for pairwise orthogroup gene comparisons with sliding 15-bp windows"
     cd !{dir}/SPECIFIC_GENES/
     echo '#!/bin/bash
