@@ -1,8 +1,3 @@
-Glyphosate,Arabidopsis_thaliana,https://www.uniprot.org/uniprot/P05466.fasta
-Glyphosate,Arabidopsis_thaliana,https://www.uniprot.org/uniprot/P57720.fasta
-Glyphosate,Lolium_rigidum,https://www.uniprot.org/uniprot/F4YBG5.fasta
-Glyphosate,Lolium_rigidum,https://www.uniprot.org/uniprot/F4YBG4.fasta
-GlutathioneStransferase,Arabidopsis_thaliana,https://www.uniprot.org/uniprot/Q96266.fasta
-GlutathioneStransferase,Arabidopsis_thaliana,https://www.uniprot.org/uniprot/Q9FRL8.fasta
-GlutathioneStransferase,Zea_mays,https://www.uniprot.org/uniprot/P12653.fasta
-GlutathioneStransferase,Zea_mays,https://www.uniprot.org/uniprot/P46420.fasta
+Flowering_time_FY,Arabidopsis_thaliana,https://www.uniprot.org/uniprot/Q6NLV4.fasta
+Flowering_time_FCA,Arabidopsis_thaliana,https://www.uniprot.org/uniprot/O04425.fasta
+Flowering_time_FPA,Arabidopsis_thaliana,https://www.uniprot.org/uniprot/Q8LPQ9.fasta

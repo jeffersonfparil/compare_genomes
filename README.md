@@ -69,7 +69,7 @@ Setup the parameters for the comparative genomics analysis (Note that for gene f
 1. [`urls.txt`](config/urls.txt): links to the genome sequence, genome annotation, coding DNA sequence, and amino acid sequences for at least 3 species you wish to include in the analyses.
     - Formatted as headerless, two-columned, comma-separated file
     - Column 1: filename of the genome sequence, genome annotation, coding DNA sequence, and amino acid sequences (**Note**: the species names and extension names should be the consistent across these files)
-    - Column 2: URL (uniform resource locator) of the files for download
+    - Column 2: URL (uniform resource locator) of the gunzipped files (*.gz) for download
 
 2. [`dates.txt`](config/dates.txt): pairwise divergence times between the species you wish to include in the analyses (e.g. look up dvergence times, e.g. from [http://timetree.org/](http://timetree.org/))
     - Formatted as headerless, two-columned, tab-delimited file
@@ -83,24 +83,24 @@ Setup the parameters for the comparative genomics analysis (Note that for gene f
     - Column 3: URL of the genes for download
 
 4. [`params.config`](config/params.config): configuration file listing the variables specific to the analyses you wish to perform
-    - **dir**: output directory
-    - **species_of_interest**: the focal species of interest which should the same as in [`urls.txt`](config/urls.txt), [`dates.txt`](config/dates.txt), and [`genes.txt`](config/genes.txt)
-    - **species_of_interest_panther_HMM_for_gene_names_url**: URL to the specific Panther HMM database to extract gene names from, preferrably from the same species which will be used for gene ontology (GO) term enrichment analysis. See the list of the current release [here](http://data.pantherdb.org/ftp/sequence_classifications/current_release/PANTHER_Sequence_Classification_files/).
-    - **urls**: location of [`urls.txt`](config/urls.txt)
-    - **dates** = location of [`dates.txt`](config/dates.txt), e.g. look up dvergence times from [http://timetree.org/](http://timetree.org/))
-    - **genes**: location of [`genes.txt`](config/genes.txt)
-    - **genomes**: extension name of the genome sequences (e.g. consistently '*.fna' for all species)
-    - **gff**: extension name of the genome annotations (e.g. consistently '*.gff' for all species)
-    - **cds**: extension name of the coding DNA sequences (e.g. consistently '*.cds' for all species)
-    - **faa**: extension name of the protein sequences (e.g. consistently '*.faa' for all species)
+    - **dir**: output directory.
+    - **species_of_interest**: the focal species of interest which should the same as in [`urls.txt`](config/urls.txt), [`dates.txt`](config/dates.txt), and [`genes.txt`](config/genes.txt).
+    - **species_of_interest_panther_HMM_for_gene_names_url**: URL to the specific Panther HMM database to extract gene names from, preferrably from the same species which will be used for gene ontology (GO) term enrichment analysis. See the current release list [here](http://data.pantherdb.org/ftp/sequence_classifications/current_release/PANTHER_Sequence_Classification_files/).
+    - **urls**: location of [`urls.txt`](config/urls.txt).
+    - **dates** = location of [`dates.txt`](config/dates.txt), e.g. look up dvergence times from [http://timetree.org/](http://timetree.org/).
+    - **genes**: location of [`genes.txt`](config/genes.txt).
+    - **genomes**: extension name of the genome sequences (e.g. consistently '*.fna' for all species).
+    - **gff**: extension name of the genome annotations (e.g. consistently '*.gff' for all species).
+    - **cds**: extension name of the coding DNA sequences (e.g. consistently '*.cds' for all species).
+    - **faa**: extension name of the protein sequences (e.g. consistently '*.faa' for all species).
     - **cafe5_n_gamma_cats**: number of the gamma values (parameter of the substittion model) to use for the assessment of significant gene family expansion and contraction using CAFE5.
-    - **cafe5_pvalue**: signifcance threshold of gene family expansion and contraction
-    - **go_term_enrich_genome_id**: NCBI species ID for the species you wish used which is preferrable the same as in **species_of_interest_panther_HMM_for_gene_names_url**
+    - **cafe5_pvalue**: signifcance threshold of gene family expansion and contraction.
+    - **go_term_enrich_genome_id**: genome ID for the species specified in **species_of_interest_panther_HMM_for_gene_names_url**. Find the appropriate taxon ID from [here](http://pantherdb.org/services/oai/pantherdb/supportedgenomes).
     - **go_term_enrich_annotation_id**: code for the gene ontology level you with to use, e.g. `GO:0008150` for "Biological Process". See the list of GO codes [here](http://pantherdb.org/services/oai/pantherdb/supportedannotdatasets).
-    - **go_term_enrich_test**: GO term enrichment test to perform which can be either `FISHER` (Fisher's Exact Test) or `BINOMIAL`" (binomial distribution test)
-    - **go_term_enrich_correction**: multiple testing correction which can be `NONE`, `FDR` (False discovery rate), or `BONFERRONI` (Bonferroni correction)
-    - **go_term_enrich_ngenes_per_test**: number of genes to include in each GO term enrichment analysis
-    - **go_term_enrich_ntests**: number GO term enrichment analyses to perform
+    - **go_term_enrich_test**: GO term enrichment test to perform which can be either `FISHER` (Fisher's Exact Test) or `BINOMIAL`" (binomial distribution test).
+    - **go_term_enrich_correction**: multiple testing correction which can be `NONE`, `FDR` (False discovery rate), or `BONFERRONI` (Bonferroni correction).
+    - **go_term_enrich_ngenes_per_test**: number of genes to include in each GO term enrichment analysis.
+    - **go_term_enrich_ntests**: number GO term enrichment analyses to perform.
 
 5. [`process.config`](config/process.config): the second and last cofiguration file listing the computing resource allocation availble to you. Assign the number of **cpus** and **memory** capacity to use for low and high resources intensive tasks:
     - **LOW_MEM_LOW_CPU**

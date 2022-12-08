@@ -7,6 +7,8 @@
 //  - coding DNA: *.cds
 //  - proteome: *.faa
 
+//NOTE: 20221207 BUG WITH ORTHOFINDER MAKING TREES!!!!! UUUGGGGHHHHHHHHHHHHH
+
 process FIND_ORTHOGROUPS {
     label "HIGH_MEM_HIGH_CPU"
     input:
@@ -20,7 +22,6 @@ process FIND_ORTHOGROUPS {
     echo "Append species names into protein sequence names."
     for f in PROTEOMES/*.faa
     do
-        # f=$(ls ORTHOGROUPS/*.faa | head -n1)
         fname=$(basename ${f})
         species=${fname%.faa*}
         sed -i "s/^>/>$species|/g" $f
@@ -31,6 +32,10 @@ process FIND_ORTHOGROUPS {
         -f PROTEOMES/ \
         -t !{task.cpus}
     
+    orthofinder \
+        -fg PROTEOMES/OrthoFinder/Results_Dec07 -t 32
+
+
     echo "Output:"
     echo "  (1/1) PROTEOMES/OrhoFinder/Results_{Mmmdd}"
     '''
