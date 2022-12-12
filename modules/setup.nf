@@ -52,7 +52,15 @@ process DOWNLOAD_OMICS_DATA {
         else
             DIR=$(echo !{dir}/PROTEOMES)
         fi
-        wget ${url} -O - | gunzip -c - > ${DIR}/${spe}
+        if [ $(echo ${url##*.}) == "gz" ]
+        then
+            wget ${url} -O - | gunzip -c - > ${DIR}/${spe}
+        elif [ $(echo ${url##*.}) == "zip" ]
+        then
+            wget ${url} -O - | unzip -c - > ${DIR}/${spe}
+        else
+            wget ${url} -O - > ${DIR}/${spe}
+        fi
     done
     '''
 }

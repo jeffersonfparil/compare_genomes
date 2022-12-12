@@ -26,15 +26,23 @@ process FIND_ORTHOGROUPS {
         species=${fname%.faa*}
         sed -i "s/^>/>$species|/g" $f
     done
-
+    
+    echo "Remove terminal gaps (i.e. '.' and '-') in amino acid sequences"
+    for f in PROTEOMES/*.faa
+    do
+        sed -i "s/.$/|/g" $f
+        sed -i "s/-$/|/g" $f
+    done
+    
     echo "Run OrthoFinder."
     orthofinder \
         -f PROTEOMES/ \
         -t !{task.cpus}
-    
-    orthofinder \
-        -fg PROTEOMES/OrthoFinder/Results_Dec07 -t 32
 
+    echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
+    DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
+    DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
+    TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt
 
     echo "Output:"
     echo "  (1/1) PROTEOMES/OrhoFinder/Results_{Mmmdd}"
