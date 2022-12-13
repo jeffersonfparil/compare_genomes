@@ -30,8 +30,8 @@ process FIND_ORTHOGROUPS {
     echo "Remove terminal gaps (i.e. '.' and '-') in amino acid sequences"
     for f in PROTEOMES/*.faa
     do
-        sed -i "s/.$/|/g" $f
-        sed -i "s/-$/|/g" $f
+        sed -i "s/.$//g" $f
+        sed -i "s/-$//g" $f
     done
     
     echo "Run OrthoFinder."
