@@ -28,7 +28,8 @@ process CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION {
     rev ${ORTHOUT} | cut -f5- | rev > col2_to_coln.tmp
     awk -F'\t' '{print $(NF-1)}' ${ORTHOUT} > col1.tmp
     paste -d'\t' col1.tmp col2_to_coln.tmp > counts.tmp
-    TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt
+    # TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt
+    TREE=ORTHOGROUPS_SINGLE_GENE.NT.timetree.nwk
     cafe5 \
         --infile counts.tmp \
         --tree ${TREE} \
