@@ -29,9 +29,46 @@ process CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION {
     awk -F'\t' '{print $(NF-1)}' ${ORTHOUT} > col1.tmp
     paste -d'\t' col1.tmp col2_to_coln.tmp > counts.tmp
     # TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt
-    TREE=ORTHOGROUPS_SINGLE_GENE.NT.timetree.nwk
+    TREE=ORTHOGROUPS_SINGLE_GENE.NT.treefile
+
+    echo "Find Orthogroup with the highest differences and remove them."
+    echo 'using Statistics
+    file = open("counts.tmp", "r")
+    vec_name = []
+    vec_id = []
+    vec_count = []
+    vec_std = []
+    vec_with_zero = []
+    header = readline(file)
+    while !eof(file)
+        line = split(readline(file), "\t")
+        push!(vec_name, line[1])
+        push!(vec_id, line[2])
+        push!(vec_count, parse.(Int64, line[3:end]))
+        push!(vec_std, std(vec_count[end]))
+    end
+    close(file)
+    vec_idx = vec_std .< maximum(vec_std)
+    sum(vec_idx)
+    # using UnicodePlots
+    # UnicodePlots.histogram(Float64.(vec_std[vec_idx]))
+    # Write-out the new counts file
+    file = open("counts_filtered.tmp", "a")
+    write(file, string(header, "\n"))
+    for i in 1:length(vec_std)
+        # i = 50
+        if vec_idx[i]
+            line = join([join([vec_name[i], vec_id[i]], "\t"), join(vec_count[i], "\t")], "\t")
+            write(file, string(line, "\n"))
+        end
+    end
+    close(file)
+    ' > remove_max_var_orthogroup.jl
+    julia remove_max_var_orthogroup.jl
+
+    echo "Gene family contraction/expansion analysis."
     cafe5 \
-        --infile counts.tmp \
+        --infile counts_filtered.tmp \
         --tree ${TREE} \
         --n_gamma_cats !{cafe5_n_gamma_cats} \
         --cores tasks.cpus \

@@ -1,2 +1,0 @@
-Arabidopsis_thaliana,Arabidopsis_lyrata -6.000
-Arabidopsis_thaliana,Arabidopsis_suecica    -0.238
