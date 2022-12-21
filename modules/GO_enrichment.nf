@@ -24,9 +24,9 @@ process GO_TERM_ENRICHMENT {
     echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
     cd !{dir}
     ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
-    n=$(head -n1 CAFE_results/Gamma_change.tab | sed -z "s/\\t/\\n/g" | grep -n "!{species_of_interest}" | cut -d":" -f1)
-    cut -f1,${n} CAFE_results/Gamma_change.tab | grep -v "+0" | grep "+" | cut -f1 > expanded_orthogroups_for_grep.tmp
-    cut -f1,${n} CAFE_results/Gamma_change.tab | grep -v "+" | cut -f1 > contracted_orthogroups_for_grep.tmp
+    n=$(head -n1 CAFE_results/*_change.tab | sed -z "s/\\t/\\n/g" | grep -n "!{species_of_interest}" | cut -d":" -f1)
+    cut -f1,${n} CAFE_results/*_change.tab | grep -v "+0" | grep "+" | cut -f1 > expanded_orthogroups_for_grep.tmp
+    cut -f1,${n} CAFE_results/*_change.tab | grep -v "+" | cut -f1 > contracted_orthogroups_for_grep.tmp
 
     echo "List significantly expanded and contracted genes"
     grep -wf expanded_orthogroups_for_grep.tmp $ORTHOUT | cut -f$(head -n1 $ORTHOUT | awk '{printf NF-2}') | grep -v "^$" > expanded_orthogroups.pthr.tmp

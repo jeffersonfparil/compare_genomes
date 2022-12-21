@@ -29,9 +29,9 @@ process CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION {
     awk -F'\t' '{print $(NF-1)}' ${ORTHOUT} > col1.tmp
     paste -d'\t' col1.tmp col2_to_coln.tmp > counts.tmp
     # TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt
-    TREE=ORTHOGROUPS_SINGLE_GENE.NT.treefile
+    TREE=ORTHOGROUPS_SINGLE_GENE.NT.treefile ### NOTE: Make sure there are no redundant species or else the following analysis will not be successful.
 
-    echo "Find Orthogroup with the highest differences and remove them."
+    echo "Remove the top 1% of orthogroups with the highest between species differences in an attempt to reduce too much bias."
     echo 'using Statistics
     file = open("counts.tmp", "r")
     vec_name = []
@@ -48,8 +48,12 @@ process CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION {
         push!(vec_std, std(vec_count[end]))
     end
     close(file)
-    vec_idx = vec_std .< maximum(vec_std)
-    sum(vec_idx)
+    n = length(vec_std)
+    temp_idx = sortperm(vec_std, rev=true)
+    temp_std = vec_std[temp_idx]
+    maximum_threshold = temp_std[Int64(ceil(n*0.01))]
+    vec_idx = vec_std .< maximum_threshold
+    # sum(vec_idx)
     # using UnicodePlots
     # UnicodePlots.histogram(Float64.(vec_std[vec_idx]))
     # Write-out the new counts file
@@ -67,21 +71,51 @@ process CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION {
     julia remove_max_var_orthogroup.jl
 
     echo "Gene family contraction/expansion analysis."
-    cafe5 \
-        --infile counts_filtered.tmp \
-        --tree ${TREE} \
-        --n_gamma_cats !{cafe5_n_gamma_cats} \
-        --cores tasks.cpus \
-        --pvalue !{cafe5_pvalue} \
-        --output_prefix CAFE_results
-    echo -e "Species\tExpansion\tContraction" > CONTRACTION_EXPANSION.txt
-    grep -v "^#" CAFE_results/Gamma_clade_results.txt | \
-        grep -v "^<" | \
-        sed 's/<..>//g' | \
-        sed 's/<.>//g' >> CONTRACTION_EXPANSION.txt
+    if [ !{cafe5_n_gamma_cats} -gt 1 ]
+    then
+        cafe5 \
+            --infile counts_filtered.tmp \
+            --tree ${TREE} \
+            --n_gamma_cats !{cafe5_n_gamma_cats} \
+            --cores !{task.cpus} \
+            --pvalue !{cafe5_pvalue} \
+            --output_prefix CAFE_results
+        echo -e "Species\tExpansion\tContraction" > CONTRACTION_EXPANSION.txt
+        grep -v "^#" CAFE_results/Gamma_clade_results.txt | \
+            grep -v "^<" | \
+            sed 's/<..>//g' | \
+            sed 's/<.>//g' >> CONTRACTION_EXPANSION.txt
+        ### If something goes wrong, then revert to the base model.      
+        if [ $(cat CONTRACTION_EXPANSION.txt | wc -l) -eq 1 ]
+        then
+            cafe5 \
+                --infile counts_filtered.tmp \
+                --tree ${TREE} \
+                --cores !{task.cpus} \
+                --pvalue !{cafe5_pvalue} \
+                --output_prefix CAFE_results
+            echo -e "Species\tExpansion\tContraction" > CONTRACTION_EXPANSION.txt
+            grep -v "^#" CAFE_results/Base_clade_results.txt | \
+                grep -v "^<" | \
+                sed 's/<..>//g' | \
+                sed 's/<.>//g' >> CONTRACTION_EXPANSION.txt
+        fi
+    else
+        cafe5 \
+            --infile counts_filtered.tmp \
+            --tree ${TREE} \
+            --cores !{task.cpus} \
+            --pvalue !{cafe5_pvalue} \
+            --output_prefix CAFE_results
+        echo -e "Species\tExpansion\tContraction" > CONTRACTION_EXPANSION.txt
+        grep -v "^#" CAFE_results/Base_clade_results.txt | \
+            grep -v "^<" | \
+            sed 's/<..>//g' | \
+            sed 's/<.>//g' >> CONTRACTION_EXPANSION.txt
+    fi
 
     echo "Cleanup"
-    rm col1.tmp counts.tmp
+    rm col1.tmp counts.tmp counts_filtered.tmp
 
     echo "Output:"
     echo "  (1/1) ORTHOGROUPS_SINGLE_GENE.NT.4DTv"

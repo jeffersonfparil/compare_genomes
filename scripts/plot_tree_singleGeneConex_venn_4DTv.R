@@ -6,6 +6,7 @@ args = commandArgs(trailingOnly=TRUE)
 #          "/data-weedomics-3",
 #          ".4DTv",
 #          "ORTHOGROUPS_SINGLE_GENE.NT.4DTv",
+#          "/data-weedomics-3/compare_genomes/config/comparisons_4DTv.txt",
 #          "test.svg")
 fname_tree = args[1]
 fname_conex = args[2]
@@ -14,7 +15,8 @@ fname_gene_counts = args[4]
 dir_name_4DTv = args[5]
 extension_name_4DTv = args[6]
 fname_4DTv_singlecopy = args[7]
-fname_svg_output = args[8]
+fname_comparisons = args[8]
+fname_svg_output = args[9]
 
 library(ape)
 library(VennDiagram)
@@ -38,13 +40,8 @@ tree$node.label = rev(tree$node.label)
 
 par(mar=c(0,0,0,0))
 plot(x=c(0,1), y=c(0,1), type="n", xaxt="n", yaxt="n", xlab="", ylab="", bty="n")
+polygon(x=c(0.0, 1.0, 1.0, 0.0), y=c(0.1, 0.1, 1.0, 1.0), col="#f0f0f0", border=NA)
 text(x=0.05, y=1, lab="a", cex=2.5, font=2)
-
-highlight_x = c(0.0, 1.0, 1.0, 0.0)
-highlight_y1 = c(0.1, 0.1, 0.2, 0.2)
-highlight_y2 = c(highlight_y1[3:4], 0.9, 0.9)
-polygon(x=highlight_x, y=highlight_y1, col="#d9d9d9", border=NA)
-polygon(x=highlight_x, y=highlight_y2, col="#f0f0f0", border=NA)
 
 par(new=TRUE, mar=c(5,2,5,0))
 plt = plot.phylo(tree, cex=1.5, direction="rightward")
@@ -165,10 +162,15 @@ for (i in 1:nrow(species_labels)){
 }
 df = droplevels(df[df$id %in% species_list, ])
 
+### Keep only the comparisons you require
+vec_comparisons = read.csv(fname_comparisons, header=FALSE)[,1]
+df = droplevels(df[df$id %in% vec_comparisons, ])
+
 par(mar=c(5, 5, 5, 2))
+species_list = levels(df$id)
 n = nlevels(df$id)
 # colours = c(colours[c(1,2,4)], "#969696", "#66c2a5")
-colours = rainbow(length(species_list))
+colours = rainbow(n)
 plot(0, 0, xlim=range(df$x), ylim=range(df$y), xlab="4DTv", ylab="Density", type="n")
 for (i in 1:n){
     # i = 1

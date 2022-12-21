@@ -76,13 +76,17 @@ Setup the parameters for the comparative genomics analysis (Note that for gene f
     - Column 1: two species separated by a comma with the same names used in the [`urls.txt`](config/urls.txt)
     - Column 2: time in million years, e.g. -160 for 160 million years ago
 
-3. [`genes.txt`](config/genes.txt): links to the gene sequences you wish to look at individually across the species included
+3. [`comparisons_4DTv.txt`](config/comparisons_4DTv.txt"): list of the species and species comparisons you wish to include in the the compuations of the transversion rate among 4-flod degenerate sites (4DTv)
+    - Formatted as headerless, one-columned file
+    - Column 1: Species and comparison names which should be the same names as in [`urls.txt`](config/urls.txt) but with underscores ("_") replaced with spaces (" "), and species comparisons written as the names of the two species with " X " in between.
+
+4. [`genes.txt`](config/genes.txt): links to the gene sequences you wish to look at individually across the species included
     - Formatted as headerless, three-columned, comma-separated file
     - Column 1: phenotype name or some identifying name
     - Column 2: species name which should be the same as in [`urls.txt`](config/urls.txt) and [`dates.txt`](config/dates.txt)
     - Column 3: URL of the genes for download
 
-4. [`params.config`](config/params.config): configuration file listing the variables specific to the analyses you wish to perform
+5. [`params.config`](config/params.config): configuration file listing the variables specific to the analyses you wish to perform
     - **dir**: output directory.
     - **species_of_interest**: the focal species of interest which should the same as in [`urls.txt`](config/urls.txt), [`dates.txt`](config/dates.txt), and [`genes.txt`](config/genes.txt).
     - **species_of_interest_panther_HMM_for_gene_names_url**: URL to the specific Panther HMM database to extract gene names from, preferrably from the same species which will be used for gene ontology (GO) term enrichment analysis. See the current release list [here](http://data.pantherdb.org/ftp/sequence_classifications/current_release/PANTHER_Sequence_Classification_files/).
@@ -93,7 +97,7 @@ Setup the parameters for the comparative genomics analysis (Note that for gene f
     - **gff**: extension name of the genome annotations (e.g. consistently '*.gff' for all species).
     - **cds**: extension name of the coding DNA sequences (e.g. consistently '*.cds' for all species).
     - **faa**: extension name of the protein sequences (e.g. consistently '*.faa' for all species).
-    - **cafe5_n_gamma_cats**: number of the gamma values (parameter of the substittion model) to use for the assessment of significant gene family expansion and contraction using CAFE5.
+    - **cafe5_n_gamma_cats**: number of the gamma values (parameter of the substittion model) to use for the assessment of significant gene family expansion and contraction using CAFE5. If this is equal to one then we use the substitution model without the gamma function.
     - **cafe5_pvalue**: signifcance threshold of gene family expansion and contraction.
     - **go_term_enrich_genome_id**: genome ID for the species specified in **species_of_interest_panther_HMM_for_gene_names_url**. Find the appropriate taxon ID from [here](http://pantherdb.org/services/oai/pantherdb/supportedgenomes).
     - **go_term_enrich_annotation_id**: code for the gene ontology level you with to use, e.g. `GO:0008150` for "Biological Process". See the list of GO codes [here](http://pantherdb.org/services/oai/pantherdb/supportedannotdatasets).
@@ -102,7 +106,7 @@ Setup the parameters for the comparative genomics analysis (Note that for gene f
     - **go_term_enrich_ngenes_per_test**: number of genes to include in each GO term enrichment analysis.
     - **go_term_enrich_ntests**: number GO term enrichment analyses to perform.
 
-5. [`process.config`](config/process.config): the second and last cofiguration file listing the computing resource allocation availble to you. Assign the number of **cpus** and **memory** capacity to use for low and high resources intensive tasks:
+6. [`process.config`](config/process.config): the second and last cofiguration file listing the computing resource allocation availble to you. Assign the number of **cpus** and **memory** capacity to use for low and high resources intensive tasks:
     - **LOW_MEM_LOW_CPU**
     - **HIGH_MEM_HIGH_CPU**
 
@@ -127,6 +131,7 @@ nextflow run modules/GO_enrichment.nf                       -c config/params.con
 nextflow run modules/assess_WGD.nf                          -c config/params.config ### ASSESS WHOLE GENOME DUPLICATION EVENTS
 nextflow run modules/plot_tree_conex_venn_4DTv.nf           -c config/params.config ### PLOT THE PHYLOGENETIC TREE, CONTRACTION/EXPANSION, GENE SETS VENN DIAGRAM AND 4DTv
 nextflow run modules/assess_specific_genes.nf               -c config/params.config ### ASSESS CONTRACTION/EXPANSION AND NON-SYNONYMOUS TO SYNONYMOUS NUCLEOTIDE SUBSTITION RATIOS
+
 ```
 
 ## References

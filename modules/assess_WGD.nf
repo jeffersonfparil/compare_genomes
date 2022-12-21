@@ -22,7 +22,7 @@ process ASSESS_WGD {
     DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
     ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
 
-    echo "Identify multi-copy paralogs (2 to 5 copies) per species, align, and estimate 4DTv"
+    echo "Identify 100 dual-copy paralogs (2 copies) per species, align, and estimate 4DTv"
     head -n1 ${ORTHOUT} | rev | cut -f5- | rev | cut -f2- | sed -z "s/\\t/\\n/g" > species_names.tmp
     for i in $(seq 1 $(cat species_names.tmp | wc -l))
     do
@@ -31,7 +31,7 @@ process ASSESS_WGD {
        SPECIES=$(head -n${i} species_names.tmp | tail -n1)
        idx=$(echo $i + 1 | bc)
        ### Exract names of orthogroups with 2 copies in the current species
-       awk -v col="${idx}" '($col >= 2) && ($col <= 5)' $ORTHOUT | cut -f1 > multi_gene_list.grep
+       awk -v col="${idx}" '$col == 2' $ORTHOUT | cut -f1 | shuf | head -n 100 | sort > multi_gene_list.grep
        ### Extract names of the genes of these multi-copy orthogroups
        grep -f multi_gene_list.grep ${DIR_ORTHOGROUPS}/Orthogroups/Orthogroups.tsv | cut -f1,${idx} > multi_gene_list.geneNames
        ### Extract CDS, and align in parallel
@@ -39,7 +39,7 @@ process ASSESS_WGD {
        bash !{projectDir}/../scripts/extract_multi_gene_orthogroups.sh \
            {} \
            !{projectDir}/../scripts/extract_sequence_using_name_query.jl \
-           !{projectDir}/../scripts/reformat_fasta_sequence.jl \
+           !{projectDir}/../scripts/calculate_4DTv.jl \
            ::: $(seq 1 $(cat multi_gene_list.geneNames | wc -l))
        ### Concatenate 4DTv estimates
        cat *.4DTv.tmp > ${SPECIES}.4DTv
@@ -50,7 +50,9 @@ process ASSESS_WGD {
     done
 
     echo "Clean-up"
-    rm species_names.tmp
+    mkdir ORTHOGROUPS_MULTI_GENE_CDS_ALIGNMENTS/
+    mv *.NT.cds ORTHOGROUPS_MULTI_GENE_CDS_ALIGNMENTS/
+    rm *.prot *.tmp
 
     echo "Output:"
     echo "  (1/1) {SPECIES}.4DTv"

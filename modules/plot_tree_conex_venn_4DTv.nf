@@ -12,6 +12,7 @@ process PLOT {
     '''
     #!/usr/bin/env bash
     cd !{dir}
+    TREE=ORTHOGROUPS_SINGLE_GENE.NT.treefile
     Rscript !{projectDir}/../scripts/plot_tree_singleGeneConex_venn_4DTv.R \
         ORTHOGROUPS_SINGLE_GENE.NT.timetree.nex \
         CONTRACTION_EXPANSION.txt \
@@ -20,6 +21,7 @@ process PLOT {
         !{dir} \
         .4DTv \
         ORTHOGROUPS_SINGLE_GENE.NT.4DTv \
+        !{projectDir}/../config/comparisons_4DTv.txt \
         !{params.species_of_interest}_comparative_genomics.svg
     '''
 }

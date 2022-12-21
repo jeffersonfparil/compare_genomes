@@ -54,7 +54,8 @@ process CALCULATE_4DTV {
     done
 
     echo "Cleanup"
-    rm *.${TYPE}.cds
+    mkdir ORTHOGROUPS_SINGLE_GENE_CDS_ALIGNMENTS/
+    mv *.${TYPE}.cds ORTHOGROUPS_SINGLE_GENE_CDS_ALIGNMENTS/
     rm *.tmp
 
     echo "Output:"

@@ -22,6 +22,7 @@ process SETUP_DIRECTORIES {
     mkdir ${dir}/GFF
     mkdir ${dir}/CDS
     mkdir ${dir}/PROTEOMES
+    mkdir ${dir}/SPECIFIC_GENES
     """
 }
 
