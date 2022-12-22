@@ -91,7 +91,7 @@ Setup the parameters for the comparative genomics analysis (Note that for gene f
     - **species_of_interest**: the focal species of interest which should the same as in [`urls.txt`](config/urls.txt), [`dates.txt`](config/dates.txt), and [`genes.txt`](config/genes.txt).
     - **species_of_interest_panther_HMM_for_gene_names_url**: URL to the specific Panther HMM database to extract gene names from, preferrably from the same species which will be used for gene ontology (GO) term enrichment analysis. See the current release list [here](http://data.pantherdb.org/ftp/sequence_classifications/current_release/PANTHER_Sequence_Classification_files/).
     - **urls**: location of [`urls.txt`](config/urls.txt).
-    - **dates** = location of [`dates.txt`](config/dates.txt), e.g. look up dvergence times from [http://timetree.org/](http://timetree.org/).
+    - **dates**: location of [`dates.txt`](config/dates.txt), e.g. look up dvergence times from [http://timetree.org/](http://timetree.org/).
     - **genes**: location of [`genes.txt`](config/genes.txt).
     - **genomes**: extension name of the genome sequences (e.g. consistently '*.fna' for all species).
     - **gff**: extension name of the genome annotations (e.g. consistently '*.gff' for all species).
@@ -105,6 +105,7 @@ Setup the parameters for the comparative genomics analysis (Note that for gene f
     - **go_term_enrich_correction**: multiple testing correction which can be `NONE`, `FDR` (False discovery rate), or `BONFERRONI` (Bonferroni correction).
     - **go_term_enrich_ngenes_per_test**: number of genes to include in each GO term enrichment analysis.
     - **go_term_enrich_ntests**: number GO term enrichment analyses to perform.
+    - **four_fold_generate_sites_comparisons**: list of species and species pairs to include in the plot showing transversion rates across 4-fold degenerate sites within genomes and across pairs of genomes (Note: uses 2-copy genes)
 
 6. [`process.config`](config/process.config): the second and last cofiguration file listing the computing resource allocation availble to you. Assign the number of **cpus** and **memory** capacity to use for low and high resources intensive tasks:
     - **LOW_MEM_LOW_CPU**
