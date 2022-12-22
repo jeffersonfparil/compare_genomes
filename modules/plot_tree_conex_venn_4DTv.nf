@@ -6,6 +6,7 @@ process PLOT {
     label "LOW_MEM_LOW_CPU"
     input:
         val dir
+        val comparisons_4DTv
     output:
         val 0
     shell:
@@ -21,11 +22,11 @@ process PLOT {
         !{dir} \
         .4DTv \
         ORTHOGROUPS_SINGLE_GENE.NT.4DTv \
-        !{projectDir}/../config/comparisons_4DTv.txt \
+        !{comparisons_4DTv} \
         !{params.species_of_interest}_comparative_genomics.svg
     '''
 }
 
 workflow {
-    PLOT(params.dir)
+    PLOT(params.dir, params.comparisons_4DTv)
 }
