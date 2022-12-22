@@ -32,7 +32,6 @@ chmod +x run.sh
 time ./run.sh
 ```
 
-
 ## Setup parameters
 
 Setup the parameters for the comparative genomics analysis (Note that for gene family contraction and expansion analysis to work, you need to include at least 3 species).
