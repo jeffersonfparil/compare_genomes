@@ -34,7 +34,7 @@ time ./run.sh
 
 ## Setup parameters
 
-Setup the parameters for the comparative genomics analysis (Note that for gene family contraction and expansion analysis to work, you need to include at least 3 species).
+Set up the parameters for the comparative genomics analysis. Find the following files in [`compare_genomes/config`](config/) folder. Note that for gene family contraction and expansion analysis to work, you need to include at least 3 species.
 
 1. [`urls.txt`](config/urls.txt): links to the genome sequence, genome annotation, coding DNA sequence, and amino acid sequences for at least 3 species you wish to include in the analyses.
     - Formatted as headerless, two-columned, comma-separated file
