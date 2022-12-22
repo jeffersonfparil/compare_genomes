@@ -64,14 +64,14 @@ Setup the parameters for the comparative genomics analysis (Note that for gene f
     - **dates**: location of [`dates.txt`](config/dates.txt).
     - **comparisons_4DTv**: location of [`comparisons_4DTv.txt`](config/comparisons_4DTv.txt).
     - **genes**: location of [`genes.txt`](config/genes.txt).
-    - **genomes**: extension name of the genome sequences (e.g. consistently '*.fna' for all species, see [urls.txt](config/urls.txt)).
-    - **gff**: extension name of the genome annotations (e.g. consistently '*.gff' for all species, see [urls.txt](config/urls.txt)).
-    - **cds**: extension name of the coding DNA sequences (e.g. consistently '*.cds' for all species, see [urls.txt](config/urls.txt)).
-    - **faa**: extension name of the protein sequences (e.g. consistently '*.faa' for all species, see [urls.txt](config/urls.txt)).
+    - **genomes**: extension name of the genome sequences (e.g. consistently '*.fna' for all species, see [`urls.txt`](config/urls.txt)).
+    - **gff**: extension name of the genome annotations (e.g. consistently '*.gff' for all species, see [`urls.txt`](config/urls.txt)).
+    - **cds**: extension name of the coding DNA sequences (e.g. consistently '*.cds' for all species, see [`urls.txt`](config/urls.txt)).
+    - **faa**: extension name of the protein sequences (e.g. consistently '*.faa' for all species, see [`urls.txt`](config/urls.txt)).
     - **cafe5_n_gamma_cats**: number of the gamma values (parameter of the substittion model) to use for the assessment of significant gene family expansion and contraction using CAFE5. If this is equal to one, then we use the substitution model without the gamma function.
     - **cafe5_pvalue**: signifcance threshold of gene family expansion and contraction.
-    - **go_term_enrich_genome_id**: genome ID for the species specified in **species_of_interest_panther_HMM_for_gene_names_url**. Find the appropriate taxon ID from [here](http://pantherdb.org/services/oai/pantherdb/supportedgenomes).
-    - **go_term_enrich_annotation_id**: code for the gene ontology level you with to use, e.g. `GO:0008150` for "Biological Process". See the list of GO codes [here](http://pantherdb.org/services/oai/pantherdb/supportedannotdatasets).
+    - **go_term_enrich_genome_id**: genome ID for the species specified in **species_of_interest_panther_HMM_for_gene_names_url**. Find the appropriate taxon ID from [`here`](http://pantherdb.org/services/oai/pantherdb/supportedgenomes).
+    - **go_term_enrich_annotation_id**: code for the gene ontology level you with to use, e.g. `GO:0008150` for "Biological Process". See the list of GO codes [`here`](http://pantherdb.org/services/oai/pantherdb/supportedannotdatasets).
     - **go_term_enrich_test**: GO term enrichment test to perform which can be either `FISHER` (Fisher's Exact Test) or `BINOMIAL`" (binomial distribution test).
     - **go_term_enrich_correction**: multiple testing correction which can be `NONE`, `FDR` (False discovery rate), or `BONFERRONI` (Bonferroni correction).
     - **go_term_enrich_ngenes_per_test**: number of randomly sampled genes to include in each GO term enrichment analysis.
@@ -82,6 +82,8 @@ Setup the parameters for the comparative genomics analysis (Note that for gene f
     - **HIGH_MEM_HIGH_CPU**
 
 ## Run
+
+Once the parameters for your specific comparative genomics analysis are set up, you can run the entire workflow in one go, or you may wish to run each module separately.
 
 1. Run the entire workflow
 ```shell
