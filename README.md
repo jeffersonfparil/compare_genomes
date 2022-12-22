@@ -82,8 +82,8 @@ Setup the parameters for the comparative genomics analysis (Note that for gene f
 
 4. [`genes.txt`](config/genes.txt): links to the gene sequences you wish assess expansion/contraction, and non-synonymous/synonynomous mutation (Ka/Ks) rates between pairs of sequences within and among species
     - Formatted as headerless, three-columned, comma-separated file
-    - Column 1: phenotype name or some identifying name
-    - Column 2: species name which should be the same as in [`urls.txt`](config/urls.txt) and [`dates.txt`](config/dates.txt)
+    - Column 1: non-critical information: phenotype name or some identifying name
+    - Column 2: non-critical information: species name which should be the same as in [`urls.txt`](config/urls.txt) and [`dates.txt`](config/dates.txt)
     - Column 3: URL of the genes for download
 
 5. [`params.config`](config/params.config): configuration file listing the variables specific to the analyses you wish to perform

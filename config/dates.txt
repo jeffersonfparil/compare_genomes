@@ -1,2 +1,3 @@
-Arabidopsis_thaliana,Arabidopsis_lyrata -6.000
-Arabidopsis_thaliana,Arabidopsis_suecica    -0.238
+Pseudomonas_putida,Pseudomonas_aeruginosa       -000.486
+Pseudomonas_putida,Pseudomonas_chlororaphis     -183.080
+Pseudomonas_chlororaphis,Pseudomonas_syringae   -183.080

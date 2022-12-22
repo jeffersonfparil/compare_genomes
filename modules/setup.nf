@@ -76,6 +76,7 @@ process DOWNLOAD_PANTHER_DATABASE {
     '''
     #!/usr/bin/env bash
     cd !{dir}
+    echo "These database will be used in the identification of orthogroup identities in orthofinder.nf, i.e. process: ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS"
     wget 'http://data.pantherdb.org/ftp/panther_library/current_release/PANTHER17.0_hmmscoring.tgz'
     tar -xvzf PANTHER17.0_hmmscoring.tgz
     rm PANTHER17.0_hmmscoring.tgz

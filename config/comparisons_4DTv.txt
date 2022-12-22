@@ -1,5 +1,5 @@
-Arabidopsis lyrata
-Arabidopsis suecica
-Oryza sativa
-Arabidopsis suecica X Arabidopsis thaliana
-Arabidopsis suecica X Oryza sativa
+Pseudomonas_aeruginosa
+Pseudomonas_putida
+Pseudomonas_chlororaphis
+Pseudomonas_syringae
+Pseudomonas_putida,Pseudomonas_aeruginosa

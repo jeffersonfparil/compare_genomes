@@ -1,3 +1,3 @@
-Flowering_time_FY,Arabidopsis_thaliana,https://www.uniprot.org/uniprot/Q6NLV4.fasta
-Flowering_time_FCA,Arabidopsis_thaliana,https://www.uniprot.org/uniprot/O04425.fasta
-Flowering_time_FPA,Arabidopsis_thaliana,https://www.uniprot.org/uniprot/Q8LPQ9.fasta
+dpkA,Pseudomonas_putida,https://www.uniprot.org/uniprotkb/Q5FB93.fasta
+ksi,Pseudomonas_putida,https://www.uniprot.org/uniprotkb/P07445.fasta
+cpdA,Pseudomonas_aeruginosa,https://www.uniprot.org/uniprotkb/D4P095.fasta
