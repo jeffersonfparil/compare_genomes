@@ -98,7 +98,6 @@ for (name in species_order){
     eval(parse(text=paste0("Y$`", name, "` = c(1:nrow(X))[X[, j]]")))
 }
 
-
 vp = venn.diagram(Y, col=colours, fill=colours, alpha=0.3, filename=NULL)
 pushViewport(plotViewport(layout.pos.col=1, layout.pos.row=2))
 grid.draw(vp)
@@ -165,6 +164,13 @@ df = droplevels(df[df$id %in% species_list, ])
 ### Keep only the comparisons you require
 vec_comparisons = read.csv(fname_comparisons, header=FALSE)[,1]
 df = droplevels(df[df$id %in% vec_comparisons, ])
+if (nrow(df) == 0) {
+    ### Remove the underscores if the user forgot to remove them
+    vec_comparisons = gsub("_", " ", vec_comparisons)
+    df = data.frame(id=as.factor(id), x=x, y=y)
+    df = droplevels(df[df$id %in% species_list, ])
+    df = droplevels(df[df$id %in% vec_comparisons, ])
+}
 
 par(mar=c(5, 5, 5, 2))
 species_list = levels(df$id)

@@ -1,5 +1,5 @@
-Pseudomonas_aeruginosa
-Pseudomonas_putida
-Pseudomonas_chlororaphis
-Pseudomonas_syringae
-Pseudomonas_putida,Pseudomonas_aeruginosa
+Pseudomonas aeruginosa
+Pseudomonas putida
+Pseudomonas chlororaphis
+Pseudomonas syringae
+Pseudomonas putida X Pseudomonas aeruginosa

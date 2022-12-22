@@ -13,7 +13,6 @@ process PLOT {
     '''
     #!/usr/bin/env bash
     cd !{dir}
-    TREE=ORTHOGROUPS_SINGLE_GENE.NT.treefile
     Rscript !{projectDir}/../scripts/plot_tree_singleGeneConex_venn_4DTv.R \
         ORTHOGROUPS_SINGLE_GENE.NT.timetree.nex \
         CONTRACTION_EXPANSION.txt \
