@@ -47,7 +47,7 @@ Setup the parameters for the comparative genomics analysis (Note that for gene f
     - Column 1: two species separated by a comma with the same names used in the [`urls.txt`](config/urls.txt)
     - Column 2: time in million years, e.g. -160 for 160 million years ago
 
-3. [`comparisons_4DTv.txt`](config/comparisons_4DTv.txt"): list of species and pairs of species you wish to include in the estimation of transversion rates among 4-fold degenerate sites (4DTv). This statistic is used as a biological clock, where more mutations at the third codon position means more time has passed between a pair of sequences within and among species (Note: uses 2-copy genes for the estimation of 4DTv).
+3. [`comparisons_4DTv.txt`](config/comparisons_4DTv.txt): list of species and pairs of species you wish to include in the estimation of transversion rates among 4-fold degenerate sites (4DTv). This statistic is used as a biological clock, where more mutations at the third codon position means more time has passed between a pair of sequences within and among species (Note: uses 2-copy genes for the estimation of 4DTv).
     - Formatted as headerless, one-columned file
     - Column 1: Species and pairs of species which should be the same names as in [`urls.txt`](config/urls.txt) but with underscores ("_") replaced with spaces (" "), and species pairs are written for example as "Zea may X Oryza sativa".
 
