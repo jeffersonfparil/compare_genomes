@@ -1,66 +1,37 @@
 # compare_genomes: a comparative genomics workflow
 
-- Comparative genomics papers seldomly fully disclose their comparative genomics workflow
-- This hinders replicability and transferability of novel methods
-- Here we use conda and nextflow to improve the transferability of our specific comparative genomics workflow which has been used in the comparative genomics of [*Lolium rigidum*](https://doi.org/10.3389/fgene.2022.1012694) and *Salvia hispanica* genome assemblies.
+Comparative genomics papers seldomly fully disclose their comparative genomics workflow. This hinders replicability and transferability of novel methods. To address this issue, we use conda and nextflow to improve the transferability of our lab group's comparative genomics workflow which has been used to assess the reference genome assembly of [*Lolium rigidum*](https://doi.org/10.3389/fgene.2022.1012694) and a new genome assembly of *Salvia hispanica*.
 
 ## Installation
-1. Install conda
-```shell
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-sh ./Miniconda3-latest-Linux-x86_64.sh
-echo "To finish the conda setup - log-out then log back in."
-```
-2. Configure conda
-```shell
-conda config --add channels defaults
-conda config --add channels bioconda
-conda config --add channels conda-forge
-```
 
-3. Create a new conda environment
-```shell
-conda create --name "compare_genomes"
-conda env list
-conda activate compare_genomes
-```
-
-4. Install software
-```shell
-conda install -y parallel
-conda install -y wget r-base julia
-conda install -y -c bioconda orthofinder
-conda install -y -c bioconda hmmer
-conda install -y -c bioconda cafe
-conda install -y -c bioconda macse
-conda install -y -c bioconda iqtree
-conda install -y -c bioconda kakscalculator2
-conda install -y -c conda-forge r-ape
-conda install -y -c conda-forge r-VennDiagram
-conda install -y -c conda-forge r-png
-```
-
-5. Export environment and create a new environment based on the exported settings
-```shell
-conda env export -n compare_genomes > compare_genomes.yml
-```
-
-6. Import conda environment
-```shell
-conda env create -n compare_genomes_import --file compare_genomes.yml
-```
-
-7. Install nextflow but first install java
-```shell
-sudo apt install -y default-jre
-wget -qO- https://get.nextflow.io | bash
-sudo mv nextflow /usr/bin
-```
-
-8. Dowload this comparative_genomics repository
+1. Dowload [compare_genomes](https://github.com/jeffersonfparil/compare_genomes.git) repository
 ```shell
 git clone https://github.com/jeffersonfparil/compare_genomes.git
 ```
+
+2. Install conda
+```shell
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+sh ./Miniconda3-latest-Linux-x86_64.sh
+```
+
+3. **Log out of the current session, then log back in** to finish conda setup.
+
+4. Import and activate [compare_genomes conda environment](compare_genomes.yml)
+```shell
+conda env create -n compare_genomes --file compare_genomes/compare_genomes.yml
+conda activate compare_genomes
+```
+
+## Quickstart
+
+Run the example pipeline:
+```shell
+cd compare_genomes
+chmod +x run.sh
+time ./run.sh
+```
+
 
 ## Setup parameters
 
@@ -132,7 +103,6 @@ nextflow run modules/GO_enrichment.nf                       -c config/params.con
 nextflow run modules/assess_WGD.nf                          -c config/params.config ### ASSESS WHOLE GENOME DUPLICATION EVENTS
 nextflow run modules/plot_tree_conex_venn_4DTv.nf           -c config/params.config ### PLOT THE PHYLOGENETIC TREE, CONTRACTION/EXPANSION, GENE SETS VENN DIAGRAM AND 4DTv
 nextflow run modules/assess_specific_genes.nf               -c config/params.config ### ASSESS CONTRACTION/EXPANSION AND NON-SYNONYMOUS TO SYNONYMOUS NUCLEOTIDE SUBSTITION RATIOS
-
 ```
 
 ## References
