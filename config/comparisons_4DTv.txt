@@ -1,5 +1,4 @@
-Pseudomonas aeruginosa
-Pseudomonas putida
-Pseudomonas chlororaphis
-Pseudomonas syringae
-Pseudomonas putida X Pseudomonas aeruginosa
+Lolium rigidum
+Lolium perenne
+Lolium perenne X Arabidopsis thaliana
+Lolium perenne X Lolium rigidum

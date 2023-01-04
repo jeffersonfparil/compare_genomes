@@ -1,3 +1,2 @@
-dpkA,Pseudomonas_putida,https://www.uniprot.org/uniprotkb/Q5FB93.fasta
-ksi,Pseudomonas_putida,https://www.uniprot.org/uniprotkb/P07445.fasta
-cpdA,Pseudomonas_aeruginosa,https://www.uniprot.org/uniprotkb/D4P095.fasta
+ELF4,Lolium_perenne,https://www.uniprot.org/uniprotkb/A3AJ03.fasta
+EMF2B,Lolium_perenne,https://www.uniprot.org/uniprotkb/Q69KN0.fasta

@@ -1,3 +1,3 @@
-Pseudomonas_putida,Pseudomonas_aeruginosa       -000.486
-Pseudomonas_putida,Pseudomonas_chlororaphis     -183.080
-Pseudomonas_chlororaphis,Pseudomonas_syringae   -183.080
+Arabidopsis_thaliana,Oryza_sativa   -160.00
+Oryza_sativa,Lolium_rigidum          -46.00
+Lolium_rigidum,Lolium_perenne         -1.98
