@@ -26,8 +26,8 @@ library(grid)
 svg(fname_svg_output, width=12, height=9)
 
 pushViewport(plotViewport(layout=grid.layout(2, 2), margins=c(0,2,5,5)))
-layout(matrix(c(rep(1,times=6), rep(2,times=2), rep(3,times=6),
-                rep(4,times=7), rep(5,times=7)), byrow=TRUE, nrow=2))
+layout(matrix(c(rep(1,times=6), rep(2,times=2), rep(3,times=4), rep(4,times=2),
+                rep(5,times=7), rep(6,times=7)), byrow=TRUE, nrow=2))
 
 ### Tree: dendrogram
 tree = read.nexus(fname_tree)
@@ -40,8 +40,7 @@ tree$node.label = rev(tree$node.label)
 
 par(mar=c(0,0,0,0))
 plot(x=c(0,1), y=c(0,1), type="n", xaxt="n", yaxt="n", xlab="", ylab="", bty="n")
-polygon(x=c(0.0, 1.0, 1.0, 0.0), y=c(0.1, 0.1, 1.0, 1.0), col="#f0f0f0", border=NA)
-text(x=0.05, y=1, lab="a", cex=2.5, font=2)
+text(x=0, y=1, lab="a", cex=2.5, font=2)
 
 par(new=TRUE, mar=c(5,2,5,0))
 plt = plot.phylo(tree, cex=1.5, direction="rightward")
@@ -76,13 +75,17 @@ gene_groups = gene_groups[order(gene_groups$order, decreasing=TRUE), ]
 X = t(as.matrix(gene_groups[, 3:m]))
 rownames(X) = gsub("_", " ", colnames(gene_groups)[3:m])
 colnames(X) = gene_groups$Species
-colors = c("#a6cee3", "#1f78b4", "#b2df8a", "#33a02c")
-par(mar=c(3.5, 3.5, 3.5, 8.0))
-barplot(X, col=colors, bord=NA, horiz=TRUE, yaxt="n", xaxt="n", xlim=c(0, signif(max(gene_groups$Total),0)),
-        legend.text=TRUE, args.legend=list(x="left",cex=1.3, bty="o", bg="transparent"))
+colours = c("#a6cee3", "#1f78b4", "#b2df8a", "#33a02c")
+par(mar=c(3.5, 3.5, 3.5, 0.0))
+barplot(X, col=colours, bord=NA, horiz=TRUE, yaxt="n", xaxt="n", xlim=c(0, signif(max(gene_groups$Total),0)))
 x_axis = seq(0, signif(max(gene_groups$Total),0), length=5)
 axis(side=1, at=x_axis, lab=formatC(x_axis, format="d", big.mark=","))
 mtext(text="Gene counts", side=1, line=3, at=median(x_axis))
+### Legend of the barplot
+par(mar=c(0,0,0,0))
+plot(0, 0, type="n",  xaxt="n", yaxt="n", bty="n")
+legend("center", legend=rownames(X), fill=colours, bty="n")
+
 
 ### Venn diagram of shared gene families
 gene_counts = read.delim(fname_gene_counts, header=TRUE)
@@ -95,26 +98,28 @@ for (name in species_order){
         next
     }
     name = gsub("_", " ", name)
+    if (nchar(name) > 12) {
+        vec_name = unlist(strsplit(name, " "))
+        name = paste0(unlist(strsplit(vec_name[1], ""))[1], ". ", paste(tail(vec_name, -1), collapse=" "))
+    }
     eval(parse(text=paste0("Y$`", name, "` = c(1:nrow(X))[X[, j]]")))
 }
 
 vp = venn.diagram(Y, col=colours, fill=colours, alpha=0.3, filename=NULL)
-pushViewport(plotViewport(layout.pos.col=1, layout.pos.row=2))
-grid.draw(vp)
 par(mar=c(0,0,0,0))
 plot(x=c(0,1), y=c(0,1), xaxt="n", yaxt="n", xlab="", ylab="", type="n", bty="n")
 text(x=0.05, y=0.95, lab="b", cex=2.5, font=2)
-
+pushViewport(plotViewport(layout.pos.col=1, layout.pos.row=2))
+grid.draw(vp)
 ### Distribution of 4DTv (fraction of transverions among 4-fold degenerate codons - correlated with time from whole genome duplication using dual-copy paralogs and single-copy orthologs)
 ###@@@ Extract within genome 4DTv (pairwise paralogs)
-FDTv_files = file.path(dir_name_4DTv, list.files(path=dir_name_4DTv, pattern=extension_name_4DTv))
+FDTv_files = file.path(dir_name_4DTv, list.files(path=dir_name_4DTv, pattern=paste0(extension_name_4DTv, "$")))
 FDTv_files = FDTv_files[grep(fname_4DTv_singlecopy, FDTv_files, invert=TRUE)]
 id = c()
 x = c()
 y = c()
 for (f in FDTv_files){
     # f = FDTv_files[1]
-    print(f)
     df = read.delim(f, header=FALSE, na.string="NA")
     df[is.na(df)] = 0
     d = density(df$V4)
@@ -185,7 +190,21 @@ for (i in 1:n){
     lines(x=subdf$x, y=subdf$y, col=colours[i], lty=i, lwd=2.5)
 }
 grid()
-legend("topright", legend=species_list, col=colours, lty=c(1:n), lwd=2.5, cex=1.5)
+for (i in 1:length(species_list)){
+    # i = 1
+    entry = species_list[i]
+    if (nchar(entry) > 12) {
+        vec_species_names = unlist(strsplit(entry, " X "))
+        for (j in 1:length(vec_species_names)) {
+            # j = 1
+            name = vec_species_names[j]
+            vec_name = unlist(strsplit(name, " "))
+            vec_species_names[j] = paste0(unlist(strsplit(vec_name[1], ""))[1], ". ", paste(tail(vec_name, -1), collapse=" "))
+        }
+        species_list[i] = paste(vec_species_names, collapse=" X ")
+    }
+}
+legend("topright", legend=species_list, col=colours, lty=c(1:n), lwd=2.5, cex=1)
 
 par(new=TRUE, mar=c(0,0,0,0))
 plot(x=c(0,1), y=c(0,1), xaxt="n", yaxt="n", xlab="", ylab="", type="n", bty="n")
