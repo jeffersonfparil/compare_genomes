@@ -42,24 +42,24 @@ Set up the parameters for the comparative genomics analysis. You will find the f
     - Column 1: filename of the genome sequence, genome annotation, coding DNA sequence, and amino acid sequences (**Note**: the species names and extension names should be the consistent across these files, e.g. `*.fna` for the genomes, `*.gff` for the annotations, `*.cds` for the coding DNA sequences, and `*.faa` for the amino acid sequences)
     - Column 2: URL (uniform resource locator) of the zipped (*.gz or *.zip) or unzipped files for download
 
-2. [`dates.txt`](config/dates.txt): pairwise divergence times between the species you wish to include in the analyses (e.g. look up dvergence times, e.g. from [http://timetree.org/](http://timetree.org/))
+2. [`dates.txt`](config/dates.txt): pairwise divergence times between the species you wish to include in the analyses (e.g. look up dvergence times from [http://timetree.org/](http://timetree.org/)).
     - Formatted as headerless, two-columned, tab-delimited file
     - Column 1: two species separated by a comma with the same names used in the [`urls.txt`](config/urls.txt)
     - Column 2: time in million years, e.g. -160 for 160 million years ago
 
 3. [`comparisons_4DTv.txt`](config/comparisons_4DTv.txt): list of species and pairs of species you wish to include in the estimation of transversion rates among 4-fold degenerate sites (4DTv). This statistic is used as a biological clock, where more mutations at the third codon position means more time has passed between a pair of sequences within and among species (Note: uses 2-copy genes for the estimation of 4DTv).
     - Formatted as headerless, one-columned file
-    - Column 1: Species and pairs of species which should be the same names as in [`urls.txt`](config/urls.txt) but with underscores ("_") replaced with spaces (" "), and species pairs are written for example as "Zea may X Oryza sativa".
+    - Column 1: Species and pairs of species which should be the same names as in [`urls.txt`](config/urls.txt) but with underscores ("_") replaced with spaces (" "), and species pairs are written for example as "Zea mays X Oryza sativa".
 
-4. [`genes.txt`](config/genes.txt): links to the gene sequences you wish assess expansion/contraction, and non-synonymous/synonynomous mutation (Ka/Ks) rates between pairs of sequences within and among species
+4. [`genes.txt`](config/genes.txt): links to the gene sequences you wish assess expansion/contraction, and non-synonymous/synonynomous mutation (Ka/Ks) rates between pairs of sequences within and among species.
     - Formatted as headerless, three-columned, comma-separated file
     - Column 1: non-critical information: phenotype name or some identifying name
-    - Column 2: non-critical information: species name which should be the same as in [`urls.txt`](config/urls.txt) and [`dates.txt`](config/dates.txt)
+    - Column 2: non-critical information: species name which may be any species even ones not included in the analyses
     - Column 3: URL of the genes for download
 
-5. [`params.config`](config/params.config): configuration file listing the variables specific to the analyses you wish to perform
+5. [`params.config`](config/params.config): configuration file listing the variables specific to the analyses you wish to perform.
     - **dir**: output directory.
-    - **species_of_interest**: the focal species of interest which should the same as in [`urls.txt`](config/urls.txt), [`dates.txt`](config/dates.txt), and [`genes.txt`](config/genes.txt).
+    - **species_of_interest**: the focal species of interest which should be the same as in [`urls.txt`](config/urls.txt), [`dates.txt`](config/dates.txt), and [`genes.txt`](config/genes.txt).
     - **species_of_interest_panther_HMM_for_gene_names_url**: URL to the specific Panther HMM database to extract gene names from, preferrably from the same species which will be used for gene ontology (GO) term enrichment analysis. See the current release list [here](http://data.pantherdb.org/ftp/sequence_classifications/current_release/PANTHER_Sequence_Classification_files/).
     - **urls**: location of [`urls.txt`](config/urls.txt).
     - **dates**: location of [`dates.txt`](config/dates.txt).
@@ -67,7 +67,7 @@ Set up the parameters for the comparative genomics analysis. You will find the f
     - **genes**: location of [`genes.txt`](config/genes.txt).
     - **cafe5_n_gamma_cats**: number of the gamma values (parameter of the substittion model) to use for the assessment of significant gene family expansion and contraction using CAFE5. If this is equal to one, then we use the substitution model without the gamma function.
     - **cafe5_pvalue**: signifcance threshold of gene family expansion and contraction.
-    - **go_term_enrich_genome_id**: genome ID for the species specified in **species_of_interest_panther_HMM_for_gene_names_url**. Find the appropriate taxon ID from [`here`](http://pantherdb.org/services/oai/pantherdb/supportedgenomes).
+    - **go_term_enrich_genome_id**: genome ID for the species specified in **species_of_interest_panther_HMM_for_gene_names_url** or any species you wish to use. Find the appropriate taxon ID from [`here`](http://pantherdb.org/services/oai/pantherdb/supportedgenomes).
     - **go_term_enrich_annotation_id**: code for the gene ontology level you with to use, e.g. `GO:0008150` for "Biological Process". See the list of GO codes [`here`](http://pantherdb.org/services/oai/pantherdb/supportedannotdatasets).
     - **go_term_enrich_test**: GO term enrichment test to perform which can be either `FISHER` (Fisher's Exact Test) or `BINOMIAL`" (binomial distribution test).
     - **go_term_enrich_correction**: multiple testing correction which can be `NONE`, `FDR` (False discovery rate), or `BONFERRONI` (Bonferroni correction).
