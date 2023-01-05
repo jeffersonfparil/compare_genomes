@@ -28,6 +28,7 @@ conda activate compare_genomes
 Run the example pipeline:
 ```shell
 cd compare_genomes
+nano config/params.config # replace dir = '/data-weedomics-3/TEST_PSEUDOMONAS' with a valid path in your machine
 chmod +x run.sh
 time ./run.sh
 ```
