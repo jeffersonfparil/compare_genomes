@@ -1,6 +1,6 @@
 # compare_genomes: a comparative genomics workflow
 
-Comparative genomics papers seldomly fully disclose their comparative genomics workflow. This hinders replicability and transferability of novel methods. To address this issue, we use conda and nextflow to improve the transferability of our lab group's comparative genomics workflow which has been used to assess the reference genome assembly of [*Lolium rigidum*](https://doi.org/10.3389/fgene.2022.1012694) and a new genome assembly of *Salvia hispanica*.
+Comparative genomics papers seldomly fully disclose their comparative genomics workflow. This hinders reproducibility and transferability of novel methods. To address this issue, we use [Nextflow](https://www.nextflow.io/) and [Conda](https://docs.conda.io/en/latest/) to improve the transferability of our lab group's comparative genomics workflow which has been used to assess the reference genome assembly of [*Lolium rigidum*](https://doi.org/10.3389/fgene.2022.1012694) and a new genome assembly of *Salvia hispanica*.
 
 ## Installation
 
