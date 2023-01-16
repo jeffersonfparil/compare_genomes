@@ -1,5 +1,5 @@
-Pseudomonas aeruginosa
-Pseudomonas putida
-Pseudomonas chlororaphis
-Pseudomonas syringae
-Pseudomonas putida X Pseudomonas aeruginosa
+Arabidopsis thaliana
+Arabidopsis lyrata
+Arabidopsis suecica
+Arabidopsis thaliana X Arabidopsis lyrata
+Arabidopsis thaliana X Arabidopsis suecica
