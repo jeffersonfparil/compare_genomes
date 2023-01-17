@@ -10,3 +10,7 @@ Arabidopsis_suecica.fna,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/019/202/805
 Arabidopsis_suecica.gff,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/019/202/805/GCA_019202805.1_ASM1920280v1/GCA_019202805.1_ASM1920280v1_genomic.gff.gz
 Arabidopsis_suecica.cds,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/019/202/805/GCA_019202805.1_ASM1920280v1/GCA_019202805.1_ASM1920280v1_cds_from_genomic.fna.gz
 Arabidopsis_suecica.faa,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/019/202/805/GCA_019202805.1_ASM1920280v1/GCA_019202805.1_ASM1920280v1_protein.faa.gz
+Arabidopsis_arenosa.fna,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/905/216/605/GCA_905216605.1_AARE701a/GCA_905216605.1_AARE701a_genomic.fna.gz
+Arabidopsis_arenosa.gff,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/905/216/605/GCA_905216605.1_AARE701a/GCA_905216605.1_AARE701a_genomic.gff.gz
+Arabidopsis_arenosa.cds,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/905/216/605/GCA_905216605.1_AARE701a/GCA_905216605.1_AARE701a_cds_from_genomic.fna.gz
+Arabidopsis_arenosa.faa,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/905/216/605/GCA_905216605.1_AARE701a/GCA_905216605.1_AARE701a_protein.faa.gz
