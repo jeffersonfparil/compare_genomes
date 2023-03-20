@@ -4,7 +4,7 @@ Comparative genomics papers seldomly fully disclose their comparative genomics w
 
 ## Installation
 
-1. Dowload [compare_genomes](https://github.com/jeffersonfparil/compare_genomes.git) repository
+1. Download [compare_genomes](https://github.com/jeffersonfparil/compare_genomes.git) repository
 ```shell
 git clone https://github.com/jeffersonfparil/compare_genomes.git
 ```
