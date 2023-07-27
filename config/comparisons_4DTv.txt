@@ -1,5 +1,5 @@
-Arabidopsis suecica
-Arabidopsis arenosa
-Arabidopsis suecica X Arabidopsis thaliana
-Arabidopsis suecica X Arabidopsis lyrata
-Arabidopsis suecica X Arabidopsis arenosa
+Arabidopsis_suecica
+Arabidopsis_arenosa
+Arabidopsis_suecica X Arabidopsis_thaliana
+Arabidopsis_suecica X Arabidopsis_lyrata
+Arabidopsis_suecica X Arabidopsis_arenosa

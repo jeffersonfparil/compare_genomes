@@ -53,6 +53,13 @@ process DOWNLOAD_OMICS_DATA {
         else
             DIR=$(echo !{dir}/PROTEOMES)
         fi
+
+	# If we don't have a URL but a path in the local system
+        if [ $(echo $url | grep http | wc -l) -ne 1 ]
+        then
+            ln -s ${url} ${DIR}/${spe}
+        else
+
         if [ $(echo ${url##*.}) == "gz" ]
         then
             wget ${url} -O - | gunzip -c - > ${DIR}/${spe}
@@ -62,6 +69,7 @@ process DOWNLOAD_OMICS_DATA {
         else
             wget ${url} -O - > ${DIR}/${spe}
         fi
+fi
     done
     '''
 }
@@ -125,7 +133,6 @@ process INSTALL_PANTHER_API_FORGO {
 workflow {
     SETUP_DIRECTORIES(params.dir, params.urls) | \
         DOWNLOAD_OMICS_DATA
-    // Execute in parallel:
     DOWNLOAD_PANTHER_DATABASE(params.dir)
     INSTALL_JULIA_PACKAGES(params.dir)
     INSTALL_PANTHER_API_FORGO(params.dir)

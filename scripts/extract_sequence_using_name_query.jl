@@ -4,7 +4,19 @@ using ProgressMeter
 ### Argument parsing needs refactoring LOL
 
 fasta_input = ARGS[1]
-sequence_name_query_vec = ARGS[2:(length(ARGS)-3)]
+sequence_name_query_vec = try
+                            ARGS[2:(length(ARGS)-3)]
+                        catch
+                            try
+                                ARGS[2:(length(ARGS)-2)]
+                            catch
+                                try
+                                    ARGS[2:(length(ARGS)-1)]
+                                catch
+                                    ARGS[2:(length(ARGS)-0)]
+                                end
+                            end
+                        end
 fasta_output = try 
                     ARGS[length(ARGS)-2]
                 catch
@@ -16,10 +28,10 @@ new_sequence_name = try
                     ""
                 end
 add_gene_coordinates = try 
-                    parse(Bool, ARGS[length(ARGS)-0])
-                catch
-                    false
-                end
+                        parse(Bool, ARGS[length(ARGS)-0])
+                    catch
+                        false
+                    end
 
 if sequence_name_query_vec isa Vector
     if length(sequence_name_query_vec) > 1

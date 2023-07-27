@@ -3,10 +3,11 @@ args = commandArgs(trailingOnly=TRUE)
 #          "CONTRACTION_EXPANSION.txt",
 #          "PROTEOMES/orthogroups_summarised_gene_counts.csv",
 #          "PROTEOMES/orthogroups_gene_counts_families_go.out",
-#          "/data-weedomics-3",
+#          "/data-weedomics-2/COMPARE_GENOMES_TESTS/TEST_ARABIDOPSIS",
 #          ".4DTv",
 #          "ORTHOGROUPS_SINGLE_GENE.NT.4DTv",
-#          "/data-weedomics-3/compare_genomes/config/comparisons_4DTv.txt",
+#          "/data-weedomics-2/compare_genomes/config/comparisons_4DTv.txt",
+#          "/data-weedomics-2/compare_genomes/config/venn_species_max_5.txt",
 #          "test.svg")
 fname_tree = args[1]
 fname_conex = args[2]
@@ -16,7 +17,8 @@ dir_name_4DTv = args[5]
 extension_name_4DTv = args[6]
 fname_4DTv_singlecopy = args[7]
 fname_comparisons = args[8]
-fname_svg_output = args[9]
+fname_venn_species_max_5 = args[9]
+fname_svg_output = args[10]
 
 library(ape)
 library(VennDiagram)
@@ -44,7 +46,7 @@ text(x=0, y=1, lab="a", cex=2.5, font=2)
 
 par(new=TRUE, mar=c(5,2,5,0))
 plt = plot.phylo(tree, cex=1.5, direction="rightward")
-x_axis = round(seq(0, max(tree$edge.length), length=10))
+x_axis = round(seq(0, max(tree$edge.length), by=10))
 axis(side=1, line=1.5, at=max(x_axis)-x_axis, lab=x_axis)
 mtext(text="Million years ago", side=1, line=4.5, at=median(x_axis))
 
@@ -88,6 +90,7 @@ legend("center", legend=rownames(X), fill=colours, bty="n")
 
 
 ### Venn diagram of shared gene families
+venn_species_max_5 = gsub(" ", "_", read.delim(fname_venn_species_max_5, header=FALSE)$V1)
 gene_counts = read.delim(fname_gene_counts, header=TRUE)
 X = gene_counts[, 2:(ncol(gene_counts)-4)] > 0
 Y = list()
@@ -105,7 +108,8 @@ for (name in species_order){
     eval(parse(text=paste0("Y$`", name, "` = c(1:nrow(X))[X[, j]]")))
 }
 
-vp = venn.diagram(Y, col=colours, fill=colours, alpha=0.3, filename=NULL)
+idx = c(1:length(species_order))[species_order %in% venn_species_max_5]
+vp = venn.diagram(Y[idx], col=colours[idx], fill=colours[idx], alpha=0.3, filename=NULL)
 par(mar=c(0,0,0,0))
 plot(x=c(0,1), y=c(0,1), xaxt="n", yaxt="n", xlab="", ylab="", type="n", bty="n")
 text(x=0.05, y=0.95, lab="b", cex=2.5, font=2)
@@ -168,10 +172,9 @@ df = droplevels(df[df$id %in% species_list, ])
 
 ### Keep only the comparisons you require
 vec_comparisons = read.csv(fname_comparisons, header=FALSE)[,1]
+vec_comparisons = gsub("_", " ", vec_comparisons)
 df = droplevels(df[df$id %in% vec_comparisons, ])
 if (nrow(df) == 0) {
-    ### Remove the underscores if the user forgot to remove them
-    vec_comparisons = gsub("_", " ", vec_comparisons)
     df = data.frame(id=as.factor(id), x=x, y=y)
     df = droplevels(df[df$id %in% species_list, ])
     df = droplevels(df[df$id %in% vec_comparisons, ])

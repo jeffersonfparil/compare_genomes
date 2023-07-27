@@ -1,3 +1,1 @@
-FT,Arabidopsis_thaliana,https://www.uniprot.org/uniprotkb/Q9SXZ2.fasta
 GSTU13,Arabidopsis_thaliana,https://www.uniprot.org/uniprotkb/Q9FUS6.fasta
-psbA,Arabidopsis_thaliana,https://www.uniprot.org/uniprotkb/P83755.fasta
