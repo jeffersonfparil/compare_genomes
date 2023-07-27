@@ -62,12 +62,17 @@ process DOWNLOAD_OMICS_DATA {
 
         if [ $(echo ${url##*.}) == "gz" ]
         then
-            wget ${url} -O - | gunzip -c - > ${DIR}/${spe}
-        elif [ $(echo ${url##*.}) == "zip" ]
-        then
-            wget ${url} -O - | unzip -c - > ${DIR}/${spe}
+            ln -s ${url} ${DIR}/${spe}
         else
-            wget ${url} -O - > ${DIR}/${spe}
+            if [ $(echo ${url##*.}) == "gz" ]
+            then
+                wget ${url} -O - | gunzip -c - > ${DIR}/${spe}
+            elif [ $(echo ${url##*.}) == "zip" ]
+            then
+                wget ${url} -O - | unzip -c - > ${DIR}/${spe}
+            else
+                wget ${url} -O - > ${DIR}/${spe}
+            fi
         fi
 fi
     done
