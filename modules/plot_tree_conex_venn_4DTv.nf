@@ -7,6 +7,7 @@ process PLOT {
     input:
         val dir
         val comparisons_4DTv
+        val venn_species_max_5
     output:
         val 0
     shell:
@@ -22,10 +23,11 @@ process PLOT {
         .4DTv \
         ORTHOGROUPS_SINGLE_GENE.NT.4DTv \
         !{comparisons_4DTv} \
+        !{venn_species_max_5} \
         !{params.species_of_interest}_comparative_genomics.svg
     '''
 }
 
 workflow {
-    PLOT(params.dir, params.comparisons_4DTv)
+    PLOT(params.dir, params.comparisons_4DTv, params.venn_species_max_5)
 }

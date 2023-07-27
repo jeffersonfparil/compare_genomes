@@ -1,3 +1,1 @@
-dpkA,Pseudomonas_putida,https://www.uniprot.org/uniprotkb/Q5FB93.fasta
-ksi,Pseudomonas_putida,https://www.uniprot.org/uniprotkb/P07445.fasta
-cpdA,Pseudomonas_aeruginosa,https://www.uniprot.org/uniprotkb/D4P095.fasta
+GSTU13,Arabidopsis_thaliana,https://www.uniprot.org/uniprotkb/Q9FUS6.fasta

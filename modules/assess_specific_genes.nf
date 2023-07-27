@@ -218,7 +218,7 @@ process EXTRACT_GENE_CDS {
     head -n1 ${DIR_ORTHOGROUPS}/Orthogroups/Orthogroups.tsv | cut -f2- > species_names.tmp
     NSPECIES=$(awk -F"\\t" "{print NF}" species_names.tmp)
 
-    echo "Extract gene names"
+    echo "Extract gene names (remove dashes in the process)"
     echo '#!/bin/bash
     f=$1
     DIR_ORTHOGROUPS=$2
@@ -237,6 +237,7 @@ process EXTRACT_GENE_CDS {
             cut -f${col} ${gene}-${ortho}-list_gene_names.tmp | \
                 sed -z "s/, /\\n/g" | \
                 sed "s/$species|//g" | \
+                sed "s/-/_/g" | \
                 sed "/^$/d" | \
                 sed "/\\r/d" > \
                 ${species}-${gene}-${ortho}-list_gene_names.tmp
@@ -264,10 +265,12 @@ process EXTRACT_GENE_CDS {
     species=$(echo $f | cut -d"-" -f1)
     gene=$(echo $f | cut -d"-" -f2)
     ortho=$(echo $f | cut -d"-" -f3)
+    ### But first remove dashes from the gene names so that they are consistent with the query gene names and will not interfere with downstream steps
+    sed "/^>/s/-/_/g" ${DIR}/${species}.cds > ${DIR}/${species}_unDashedNames.cds
     for query in $(cat $f)
     do
         julia ${SRC} \
-            ${DIR}/${species}.cds \
+            ${DIR}/${species}_unDashedNames.cds \
             ${query} \
             ${species}-${gene}-${ortho}-${query}.cds.tmp \
             ${species}-${gene}-${ortho}-${query} \
@@ -320,6 +323,17 @@ process ALIGN_GENE_CDS {
         done
         rm *.tmp
     done
+
+    echo "Remove alignments and cds without the genes from the species of interest (Outputs: {gene}-{ortho}.aln)"
+    for f in $(ls *.cds)
+    do
+        # f=$(ls *.cds | head -n1 | tail -n1)
+        x=$(grep "^>!{species_of_interest}" $f | wc -l)
+        if [ $x -eq 0 ]
+        then
+            rm $f
+        fi
+    done
     
     echo "Align CDS per orthogroup per gene (Outputs: {gene}-{ortho}.aln)"
     echo '#!/bin/bash
@@ -348,18 +362,6 @@ process ALIGN_GENE_CDS {
             cds \
             ::: $(ls *.cds)
     rm *.tmp *.AA.prot
-
-    echo "Remove alignments and cds without the genes from the species of interest (Outputs: {gene}-{ortho}.aln)"
-    for f in $(ls *.aln)
-    do
-        # f=$(ls *.aln | head -n1 | tail -n1)
-        x=$(grep "^>!{species_of_interest}" $f | wc -l)
-        if [ $x -eq 0 ]
-        then
-            rm $f
-            rm ${f%.aln*}.cds
-        fi
-    done
 
     echo "Create pairwise cds alignments using the first alignment from the speies of interest as the focal alignment per orthogroup per gene (Outputs: {gene}-{ortho}.aln.pw)"
     echo '#!/bin/bash

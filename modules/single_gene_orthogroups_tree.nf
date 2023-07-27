@@ -206,6 +206,13 @@ process BUILD_TREE {
             --redo
     fi
 
+    if [ -f "ORTHOGROUPS_SINGLE_GENE.NT.timetree.nex" ]
+    then
+        echo "The time tree was successfully created!"
+    else
+        echo "Creating the time tree failed! Please check `dates.txt` for dating inconsistencies and/or remove divergence times at your discretion."
+    fi
+
     echo "Cleanup"
     rm OG*.fasta
     rm single_gene_list.*
