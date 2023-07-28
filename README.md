@@ -90,7 +90,7 @@ Once the parameters for your specific comparative genomics analysis are set up, 
 ```shell
 cd compare_genomes
 chmod +x run.sh
-./run.sh
+time ./run.sh
 ```
 
 2. Run each module individually but this needs to be in order as each module depends on the output of the previous one. Run these if you wish to troubleshoot and/or modify the workflow for analyses not implemented here, e.g. add a GO term enrichment analysis for significantly contracted gene families.
