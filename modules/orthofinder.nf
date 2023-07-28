@@ -42,7 +42,7 @@ process FIND_ORTHOGROUPS {
     echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
     DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
     DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
-    TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt
+    TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt ### May not be generated successfully due to branch conflicts/inconsistencies
 
     echo "Output:"
     echo "  (1/1) PROTEOMES/OrhoFinder/Results_{Mmmdd}"

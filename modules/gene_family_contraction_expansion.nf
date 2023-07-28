@@ -28,7 +28,7 @@ process CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION {
     rev ${ORTHOUT} | cut -f5- | rev > col2_to_coln.tmp
     awk -F'\t' '{print $(NF-1)}' ${ORTHOUT} > col1.tmp
     paste -d'\t' col1.tmp col2_to_coln.tmp > counts.tmp
-    # TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt
+    # TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt ### May not be generated successfully due to branch conflicts/inconsistencies
     TREE=ORTHOGROUPS_SINGLE_GENE.NT.treefile ### NOTE: Make sure there are no redundant species or else the following analysis will not be successful.
 
     echo "Remove the top 1% of orthogroups with the highest between species differences in an attempt to reduce too much bias."

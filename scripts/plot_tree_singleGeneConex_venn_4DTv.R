@@ -3,11 +3,11 @@ args = commandArgs(trailingOnly=TRUE)
 #          "CONTRACTION_EXPANSION.txt",
 #          "PROTEOMES/orthogroups_summarised_gene_counts.csv",
 #          "PROTEOMES/orthogroups_gene_counts_families_go.out",
-#          "/data-weedomics-2/COMPARE_GENOMES_TESTS/TEST_ARABIDOPSIS",
+#          "/data-weedomics-1/COMPARE_GENOMES_TEST",
 #          ".4DTv",
 #          "ORTHOGROUPS_SINGLE_GENE.NT.4DTv",
-#          "/data-weedomics-2/compare_genomes/config/comparisons_4DTv.txt",
-#          "/data-weedomics-2/compare_genomes/config/venn_species_max_5.txt",
+#          "/data-weedomics-1/compare_genomes/config/comparisons_4DTv.txt",
+#          "/data-weedomics-1/compare_genomes/config/venn_species_max_5.txt",
 #          "test.svg")
 fname_tree = args[1]
 fname_conex = args[2]
@@ -46,7 +46,7 @@ text(x=0, y=1, lab="a", cex=2.5, font=2)
 
 par(new=TRUE, mar=c(5,2,5,0))
 plt = plot.phylo(tree, cex=1.5, direction="rightward")
-x_axis = round(seq(0, max(tree$edge.length), by=10))
+x_axis = round(seq(0, max(tree$edge.length), length=10))
 axis(side=1, line=1.5, at=max(x_axis)-x_axis, lab=x_axis)
 mtext(text="Million years ago", side=1, line=4.5, at=median(x_axis))
 

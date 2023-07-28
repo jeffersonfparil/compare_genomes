@@ -130,7 +130,8 @@ process GENE_EXPANSION_CONTRACTION {
     DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
     DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
     ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
-    TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt
+    # TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt ### May not be generated successfully due to branch conflicts/inconsistencies
+    TREE=ORTHOGROUPS_SINGLE_GENE.NT.treefile ### NOTE: Make sure there are no redundant species or else the following analysis will not be successful.
 
     echo "Extract orthologs per gene (Outputs: {GENE}.ortho)"
     cd SPECIFIC_GENES/
