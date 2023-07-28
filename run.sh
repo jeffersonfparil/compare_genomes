@@ -2,7 +2,6 @@
 echo "========================================================="
 echo "Running the entire comparative genomics workflow."
 echo "========================================================="
-conda activate compare_genomes
 nextflow run modules/setup.nf                               -c config/params.config ### SETUP
 nextflow run modules/orthofinder.nf                         -c config/params.config ### DETERMINE ORTHOGROUPS
 nextflow run modules/single_gene_orthogroups_tree.nf        -c config/params.config ### BUILD A PHYLOGENETIC TREE USING SINGLE-COPY GENE FAMILIES
