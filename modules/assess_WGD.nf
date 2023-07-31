@@ -5,7 +5,7 @@
 //  - genome: *.fna
 //  - annotation: *.gff
 //  - coding DNA: *.cds
-//  - proteome: *.faa
+//  - proteome: *_species_names_appended.faa
 
 process ASSESS_WGD {
     label "HIGH_MEM_HIGH_CPU"
@@ -18,9 +18,9 @@ process ASSESS_WGD {
     #!/usr/bin/env bash
     echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
     cd !{dir}
-    DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
-    DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
-    ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
+    DIR_ORTHOFINDER_OUT=$(ls -tr ORTHOGROUPS/OrthoFinder/ | tail -n1)
+    DIR_ORTHOGROUPS=$(pwd)/ORTHOGROUPS/OrthoFinder/${DIR_ORTHOFINDER_OUT}
+    ORTHOUT=$(pwd)/ORTHOGROUPS/orthogroups_gene_counts_families_go.out
 
     echo "Identify 100 dual-copy paralogs (2 copies) per species, align, and estimate 4DTv"
     head -n1 ${ORTHOUT} | rev | cut -f5- | rev | cut -f2- | sed -z "s/\\t/\\n/g" > species_names.tmp

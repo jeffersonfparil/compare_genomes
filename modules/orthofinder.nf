@@ -20,15 +20,17 @@ process FIND_ORTHOGROUPS {
     #!/usr/bin/env bash
     cd !{dir}
     echo "Append species names into protein sequence names."
-    for f in PROTEOMES/*.faa
+    for f in $(ls PROTEOMES/*.faa)
     do
         fname=$(basename ${f})
         species=${fname%.faa*}
-        sed -i "s/^>/>$species|/g" $f
+        # sed -i "s/^>/>$species|/g" $f ### NOTE: breaking change but will allow for seamless reruns
+        sed "s/^>/>$species|/g" $f > ORTHOGROUPS/${fname%.faa*}_species_names_appended.faa
     done
     
     echo "Remove gaps (i.e. '.' and '-') in amino acid sequences"
-    for f in PROTEOMES/*.faa
+    # for f in ORTHOGROUPS/*.faa
+    for f in ORTHOGROUPS/*_species_names_appended.faa
     do
         sed -i -e '/^>/!s/[.]//g' $f
         sed -i -e '/^>/!s/-//g' $f
@@ -36,16 +38,16 @@ process FIND_ORTHOGROUPS {
     
     echo "Run OrthoFinder."
     orthofinder \
-        -f PROTEOMES/ \
+        -f ORTHOGROUPS/ \
         -t !{task.cpus}
 
     echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
-    DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
-    DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
+    DIR_ORTHOFINDER_OUT=$(ls -tr ORTHOGROUPS/OrthoFinder/ | tail -n1)
+    DIR_ORTHOGROUPS=$(pwd)/ORTHOGROUPS/OrthoFinder/${DIR_ORTHOFINDER_OUT}
     TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt ### May not be generated successfully due to branch conflicts/inconsistencies
 
     echo "Output:"
-    echo "  (1/1) PROTEOMES/OrhoFinder/Results_{Mmmdd}"
+    echo "  (1/1) ORTHOGROUPS/OrhoFinder/Results_{Mmmdd}"
     '''
 }
 
@@ -61,8 +63,8 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     cd !{dir}
 
     echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
-    DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
-    DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
+    DIR_ORTHOFINDER_OUT=$(ls -tr ORTHOGROUPS/OrthoFinder/ | tail -n1)
+    DIR_ORTHOGROUPS=$(pwd)/ORTHOGROUPS/OrthoFinder/${DIR_ORTHOFINDER_OUT}
     
     echo "Define the location of the 15,619 protein family HMMs."
     DIR_PANTHER=$(pwd)/PantherHMM_17.0/famlib/rel/PANTHER17.0_altVersion/hmmscoring/PANTHER17.0/books
@@ -84,7 +86,7 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     time \
     for F in $(ls orthogroup_filenames-SPLIT-*)
     do
-        parallel -j !{task.cpus}\
+        parallel -j !{task.cpus} \
             ./rename_sequences_with_orthogroup_ID.sh \
             {} \
             ::: $(cat $F)
@@ -92,7 +94,7 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     rm rename_sequences_with_orthogroup_ID.sh
 
     echo "Merge orthogroup sequences into a single fasta file."
-    MERGED_ORTHOGROUPS=$(pwd)/PROTEOMES/orthogroups.faa
+    MERGED_ORTHOGROUPS=$(pwd)/ORTHOGROUPS/orthogroups.faa
     touch $MERGED_ORTHOGROUPS
     time \
     for f in $(ls | grep "^OG" | grep "tmp$")
@@ -136,15 +138,15 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     echo "Find the best fitting gene family to each unique sequence per orthogroup. This means that each orthogroup can have multiple gene families. Next, add family name and GO terms to each gene family."
     grep "^>" ${MERGED_ORTHOGROUPS} | cut -d':' -f1 | sed 's/>//g' | sort | uniq > all_orthogroups.tmp
     julia !{projectDir}/../scripts/orthogroup_classification_gene_family_GO_terms.jl \
-            PROTEOMES/orthogroups.pthr \
+            ORTHOGROUPS/orthogroups.pthr \
             PantherHMM_17.0/Panther17.0_HMM_familyIDs.txt \
             all_orthogroups.tmp \
             ${DIR_ORTHOGROUPS}/Orthogroups/Orthogroups.GeneCount.tsv \
             ${DIR_ORTHOGROUPS}/Orthogroups/Orthogroups_UnassignedGenes.tsv \
-            PROTEOMES/orthogroups_gene_counts_families_go.out
+            ORTHOGROUPS/orthogroups_gene_counts_families_go.out
 
     echo "Output:"
-    echo "  (1/1) PROTEOMES/orthogroups_gene_counts_families_go.out"
+    echo "  (1/1) ORTHOGROUPS/orthogroups_gene_counts_families_go.out"
     '''
 }
 
@@ -160,11 +162,11 @@ process ASSESS_ORTHOGROUPS_DISTRIBUTIONS {
     cd !{dir}
     echo "Preliminary assessment of the distribution of the genes, orthogroups and gene family classifications."
     julia !{projectDir}/../scripts/count_genes_per_ortholog_paralog_classes.jl \
-        PROTEOMES/orthogroups_gene_counts_families_go.out \
-        PROTEOMES/orthogroups_summarised_gene_counts.csv
+        ORTHOGROUPS/orthogroups_gene_counts_families_go.out \
+        ORTHOGROUPS/orthogroups_summarised_gene_counts.csv
 
     echo "Output:"
-    echo "  (1/1) PROTEOMES/orthogroups_summarised_gene_counts.csv"
+    echo "  (1/1) ORTHOGROUPS/orthogroups_summarised_gene_counts.csv"
     '''
 }
 

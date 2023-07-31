@@ -5,7 +5,7 @@
 //  - genome: *.fna
 //  - annotation: *.gff
 //  - coding DNA: *.cds
-//  - proteome: *.faa
+//  - proteome: *_species_names_appended.faa
 
 process CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION {
     label "HIGH_MEM_HIGH_CPU"
@@ -21,10 +21,10 @@ process CAFE5_GENE_FAMILY_CONTRACTION_EXPANSION {
     cd !{dir}
     
     echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
-    DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
-    DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
+    DIR_ORTHOFINDER_OUT=$(ls -tr ORTHOGROUPS/OrthoFinder/ | tail -n1)
+    DIR_ORTHOGROUPS=$(pwd)/ORTHOGROUPS/OrthoFinder/${DIR_ORTHOFINDER_OUT}
 
-    ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
+    ORTHOUT=$(pwd)/ORTHOGROUPS/orthogroups_gene_counts_families_go.out
     rev ${ORTHOUT} | cut -f5- | rev > col2_to_coln.tmp
     awk -F'\t' '{print $(NF-1)}' ${ORTHOUT} > col1.tmp
     paste -d'\t' col1.tmp col2_to_coln.tmp > counts.tmp

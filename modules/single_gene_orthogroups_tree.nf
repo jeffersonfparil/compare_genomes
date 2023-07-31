@@ -5,7 +5,7 @@
 //  - genome: *.fna
 //  - annotation: *.gff
 //  - coding DNA: *.cds
-//  - proteome: *.faa
+//  - proteome: *_species_names_appended.faa
 
 process IDENTIFY_SINGLE_GENE_ORTHOGROUPS {
     label "HIGH_MEM_HIGH_CPU"
@@ -21,12 +21,12 @@ process IDENTIFY_SINGLE_GENE_ORTHOGROUPS {
     cd !{dir}
 
     echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
-    DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
-    DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
+    DIR_ORTHOFINDER_OUT=$(ls -tr ORTHOGROUPS/OrthoFinder/ | tail -n1)
+    DIR_ORTHOGROUPS=$(pwd)/ORTHOGROUPS/OrthoFinder/${DIR_ORTHOFINDER_OUT}
 
     echo "List single-gene orthogroups for all species"
-    ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
-    NSPECIES=$(ls PROTEOMES/*.faa | grep -v "orthogroups.faa" | wc -l)
+    ORTHOUT=$(pwd)/ORTHOGROUPS/orthogroups_gene_counts_families_go.out
+    NSPECIES=$(ls ORTHOGROUPS/*_species_names_appended.faa | grep -v "orthogroups.faa" | wc -l)
     julia !{projectDir}/../scripts/extract_single_gene_orthogroups.jl \
         ${ORTHOUT} \
         ${NSPECIES} ### output: single_gene_list.grep

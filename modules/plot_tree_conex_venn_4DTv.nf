@@ -17,8 +17,8 @@ process PLOT {
     Rscript !{projectDir}/../scripts/plot_tree_singleGeneConex_venn_4DTv.R \
         ORTHOGROUPS_SINGLE_GENE.NT.timetree.nex \
         CONTRACTION_EXPANSION.txt \
-        PROTEOMES/orthogroups_summarised_gene_counts.csv \
-        PROTEOMES/orthogroups_gene_counts_families_go.out \
+        ORTHOGROUPS/orthogroups_summarised_gene_counts.csv \
+        ORTHOGROUPS/orthogroups_gene_counts_families_go.out \
         !{dir} \
         .4DTv \
         ORTHOGROUPS_SINGLE_GENE.NT.4DTv \

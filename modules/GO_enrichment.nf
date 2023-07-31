@@ -23,7 +23,7 @@ process GO_TERM_ENRICHMENT {
     #!/usr/bin/env bash
     echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
     cd !{dir}
-    ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
+    ORTHOUT=$(pwd)/ORTHOGROUPS/orthogroups_gene_counts_families_go.out
     n=$(head -n1 CAFE_results/*_change.tab | sed -z "s/\\t/\\n/g" | grep -n "!{species_of_interest}" | cut -d":" -f1)
     cut -f1,${n} CAFE_results/*_change.tab | grep -v "+0" | grep "+" | cut -f1 > expanded_orthogroups_for_grep.tmp
     cut -f1,${n} CAFE_results/*_change.tab | grep -v "+" | cut -f1 > contracted_orthogroups_for_grep.tmp

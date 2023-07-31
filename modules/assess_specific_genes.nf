@@ -5,7 +5,7 @@
 //  - genome: *.fna
 //  - annotation: *.gff
 //  - coding DNA: *.cds
-//  - proteome: *.faa
+//  - proteome: *_species_names_appended.faa
 
 process DOWNLOAD_GENE_AASEQ {
     label "HIGH_MEM_HIGH_CPU"
@@ -52,8 +52,8 @@ process IDENTIFY_GENES_FROM_ORTHOGROUPS {
     #!/usr/bin/env bash
     echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
     cd !{dir}/
-    DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
-    DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
+    DIR_ORTHOFINDER_OUT=$(ls -tr ORTHOGROUPS/OrthoFinder/ | tail -n1)
+    DIR_ORTHOGROUPS=$(pwd)/ORTHOGROUPS/OrthoFinder/${DIR_ORTHOFINDER_OUT}
     DIR_ORTHOGROUP_SEQS=${DIR_ORTHOGROUPS}/Orthogroup_Sequences
 
     echo "Generate BLAST database for each orthogroup (Outputs: {ORTHOGROUP}.*)"
@@ -127,9 +127,9 @@ process GENE_EXPANSION_CONTRACTION {
     #!/usr/bin/env bash
     echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
     cd !{dir}
-    DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
-    DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
-    ORTHOUT=$(pwd)/PROTEOMES/orthogroups_gene_counts_families_go.out
+    DIR_ORTHOFINDER_OUT=$(ls -tr ORTHOGROUPS/OrthoFinder/ | tail -n1)
+    DIR_ORTHOGROUPS=$(pwd)/ORTHOGROUPS/OrthoFinder/${DIR_ORTHOFINDER_OUT}
+    ORTHOUT=$(pwd)/ORTHOGROUPS/orthogroups_gene_counts_families_go.out
     # TREE=${DIR_ORTHOGROUPS}/Species_Tree/SpeciesTree_rooted.txt ### May not be generated successfully due to branch conflicts/inconsistencies
     TREE=ORTHOGROUPS_SINGLE_GENE.NT.treefile ### NOTE: Make sure there are no redundant species or else the following analysis will not be successful.
 
@@ -211,8 +211,8 @@ process EXTRACT_GENE_CDS {
     #!/usr/bin/env bash
     echo "Define the location of the results of OrthoFinder run, i.e. the most recent output folder."
     cd !{dir}
-    DIR_ORTHOFINDER_OUT=$(ls -tr PROTEOMES/OrthoFinder/ | tail -n1)
-    DIR_ORTHOGROUPS=$(pwd)/PROTEOMES/OrthoFinder/${DIR_ORTHOFINDER_OUT}
+    DIR_ORTHOFINDER_OUT=$(ls -tr ORTHOGROUPS/OrthoFinder/ | tail -n1)
+    DIR_ORTHOGROUPS=$(pwd)/ORTHOGROUPS/OrthoFinder/${DIR_ORTHOFINDER_OUT}
     
     echo "Extract species names and number of species"
     cd !{dir}/SPECIFIC_GENES/
