@@ -44,7 +44,7 @@ process GO_TERM_ENRICHMENT {
         \\"correction\\": \\"!{go_term_enrich_correction}\\"
     }" > go_term_enrich.json
 
-    echo "Shuffle lines"
+    echo "Expanded orthogroups"
     for i in $(seq 1 !{go_term_enrich_ntests})
     do
         shuf \
