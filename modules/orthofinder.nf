@@ -24,13 +24,12 @@ process FIND_ORTHOGROUPS {
     do
         fname=$(basename ${f})
         species=${fname%.faa*}
-        # sed -i "s/^>/>$species|/g" $f ### NOTE: breaking change but will allow for seamless reruns
-        sed "s/^>/>$species|/g" $f > ORTHOGROUPS/${fname%.faa*}_species_names_appended.faa
+        sed "s/^>/>$species|/g" $f > ORTHOGROUPS/${fname}
     done
     
     echo "Remove gaps (i.e. '.' and '-') in amino acid sequences"
     # for f in ORTHOGROUPS/*.faa
-    for f in ORTHOGROUPS/*_species_names_appended.faa
+    for f in ORTHOGROUPS/*.faa
     do
         sed -i -e '/^>/!s/[.]//g' $f
         sed -i -e '/^>/!s/-//g' $f

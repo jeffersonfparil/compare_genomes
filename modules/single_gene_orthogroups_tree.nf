@@ -5,7 +5,7 @@
 //  - genome: *.fna
 //  - annotation: *.gff
 //  - coding DNA: *.cds
-//  - proteome: *_species_names_appended.faa
+//  - proteome: *.faa
 
 process IDENTIFY_SINGLE_GENE_ORTHOGROUPS {
     label "HIGH_MEM_HIGH_CPU"
@@ -26,7 +26,7 @@ process IDENTIFY_SINGLE_GENE_ORTHOGROUPS {
 
     echo "List single-gene orthogroups for all species"
     ORTHOUT=$(pwd)/ORTHOGROUPS/orthogroups_gene_counts_families_go.out
-    NSPECIES=$(ls ORTHOGROUPS/*_species_names_appended.faa | grep -v "orthogroups.faa" | wc -l)
+    NSPECIES=$(ls ORTHOGROUPS/*.faa | grep -v "orthogroups.faa" | wc -l)
     julia !{projectDir}/../scripts/extract_single_gene_orthogroups.jl \
         ${ORTHOUT} \
         ${NSPECIES} ### output: single_gene_list.grep

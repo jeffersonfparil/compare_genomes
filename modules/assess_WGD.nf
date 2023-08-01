@@ -5,7 +5,7 @@
 //  - genome: *.fna
 //  - annotation: *.gff
 //  - coding DNA: *.cds
-//  - proteome: *_species_names_appended.faa
+//  - proteome: *.faa
 
 process ASSESS_WGD {
     label "HIGH_MEM_HIGH_CPU"

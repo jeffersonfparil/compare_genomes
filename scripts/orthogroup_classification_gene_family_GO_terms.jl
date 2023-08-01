@@ -7,12 +7,12 @@ fname_orthogroup_gene_counts =  ARGS[4]
 fname_unassigned_genes =        ARGS[5]
 fname_output =                  ARGS[6]
 
-fname_orthogroup_family_hits = "ORTHOGROUPS/orthogroups.pthr"
-fname_family_GO = "PantherHMM_17.0/Panther17.0_HMM_familyIDs.txt"
-fname_paralogs = "all_orthogroups.tmp"
-fname_orthogroup_gene_counts = "ORTHOGROUPS/OrthoFinder/Results_Jul31/Orthogroups/Orthogroups.GeneCount.tsv"
-fname_unassigned_genes = "ORTHOGROUPS/OrthoFinder/Results_Jul31/Orthogroups/Orthogroups_UnassignedGenes.tsv"
-fname_output = "ORTHOGROUPS/orthogroups_gene_counts_families_go.out"
+# fname_orthogroup_family_hits = "ORTHOGROUPS/orthogroups.pthr"
+# fname_family_GO = "PantherHMM_17.0/Panther17.0_HMM_familyIDs.txt"
+# fname_paralogs = "all_orthogroups.tmp"
+# fname_orthogroup_gene_counts = "ORTHOGROUPS/OrthoFinder/Results_Jul31/Orthogroups/Orthogroups.GeneCount.tsv"
+# fname_unassigned_genes = "ORTHOGROUPS/OrthoFinder/Results_Jul31/Orthogroups/Orthogroups_UnassignedGenes.tsv"
+# fname_output = "ORTHOGROUPS/orthogroups_gene_counts_families_go.out"
 
 # Load all orthogroup IDs
 file = open(fname_paralogs, "r")
