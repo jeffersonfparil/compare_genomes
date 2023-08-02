@@ -122,7 +122,6 @@ The main output file of the workflow is the summary figure in scalable vector gr
 
 The workflow generates other intermediate files, the purposes of which can be understood by reading the nextflow modules (`${compare_genomes_path}/modules/*nf`).
 
-
 ## Bioinformatics tools
 - **OrthoFinder**: Emms, David M., and Steven Kelly. “OrthoFinder: Phylogenetic Orthology Inference for Comparative Genomics.” Genome Biology 20, no. 1 (November 14, 2019): 238. https://doi.org/10.1186/s13059-019-1832-y.was 
 - **HMMER**: Mistry, Jaina, Robert D. Finn, Sean R. Eddy, Alex Bateman, and Marco Punta. “Challenges in Homology Search: HMMER3 and Convergent Evolution of Coiled-Coil Regions.” Nucleic Acids Research 41, no. 12 (July 1, 2013): e121. https://doi.org/10.1093/nar/gkt263.

@@ -36,11 +36,21 @@ process CALCULATE_4DTV {
 
     echo "Compute the transversion rate among 4-fold degenerate sites (Output: {ORTHOLOG}.{TYPE}.cds.4DTv.tmp)"
     TYPE=NT
-    parallel -j !{task.cpus} \
-        julia !{projectDir}/../scripts/calculate_4DTv.jl \
-            {1} \
-            {1}.4DTv.tmp \
-    ::: $(ls *.${TYPE}.cds)
+    ### If-statement to re-use the stored cds alignments for re-runs
+    if [ ! -d  ORTHOGROUPS_SINGLE_GENE_CDS_ALIGNMENTS ]
+    then
+        parallel -j !{task.cpus} \
+            julia !{projectDir}/../scripts/calculate_4DTv.jl \
+                {1} \
+                {1}.4DTv.tmp \
+        ::: $(ls *.${TYPE}.cds)
+    else
+        parallel -j !{task.cpus} \
+            julia !{projectDir}/../scripts/calculate_4DTv.jl \
+                {1} \
+                {1}.4DTv.tmp \
+        ::: $(ls ORTHOGROUPS_SINGLE_GENE_CDS_ALIGNMENTS/*.${TYPE}.cds)
+    fi
 
     echo "Concatenate pairwise 4DTv among species across single-copy orthogroups"
     echo -e "ORTHOGROUP\\tSPECIES_1\\tSPECIES_2\\tn4D_sites\\tnTv4D_sites\\t4DTv" > ORTHOGROUPS_SINGLE_GENE.${TYPE%.*}.4DTv
