@@ -86,7 +86,7 @@ Set up the parameters for the comparative genomics analysis. You will find the f
 
 Once the parameters for your specific comparative genomics analysis are set up, you can run the entire workflow in one go, or you may wish to run each module separately.
 
-1. Run the entire workflow
+1. Run the entire workflow (6-hour runtime using 32 cores @ 2GHz)
 ```shell
 cd compare_genomes
 chmod +x run.sh
