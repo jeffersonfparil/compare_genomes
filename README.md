@@ -39,7 +39,7 @@ Set up the parameters for the comparative genomics analysis. You will find the f
 1. [`urls.txt`](config/urls.txt): web links or absolute paths to the genome sequence, genome annotation, coding DNA sequence, and amino acid sequences for at least 3 species you wish to include in the analyses.
     - Formatted as headerless, two-columned, comma-separated file
     - Column 1: filename of the genome sequence, genome annotation, coding DNA sequence, and amino acid sequences (**Note**: the species names and extension names should be the consistent across these files, e.g. `*.fna` for the genomes, `*.gff` for the annotations, `*.cds` for the coding DNA sequences, and `*.faa` for the amino acid sequences)
-    - Column 2: URL (uniform resource locator) of the zipped (*.gz or *.zip) or unzipped files for download. Alternatively, this can be the absolute path of pre-downloaded unzipped files.
+    - Column 2: URL (uniform resource locator) of the zipped (`*.gz` or `*.zip`) or unzipped files for download. Alternatively, this can be the absolute path of pre-downloaded zipped (`*.gz` or `*.zip`) or unzipped files.
 
 2. [`dates.txt`](config/dates.txt): pairwise divergence times between the species you wish to include in the analyses (e.g. look up dvergence times from [http://timetree.org/](http://timetree.org/)).
     - Formatted as headerless, two-columned, tab-delimited file
