@@ -106,23 +106,25 @@ nextflow run modules/assess_WGD.nf                          -c config/params.con
 nextflow run modules/plot_tree_conex_venn_4DTv.nf           -c config/params.config ### PLOT THE PHYLOGENETIC TREE, CONTRACTION/EXPANSION, GENE SETS VENN DIAGRAM AND 4DTv
 nextflow run modules/assess_specific_genes.nf               -c config/params.config ### ASSESS CONTRACTION/EXPANSION AND NON-SYNONYMOUS TO SYNONYMOUS NUCLEOTIDE SUBSTITION RATIOS
 ```
-3. Workflow and example output plot
+## Output
 
 ![](misc/compare_genomes_workflow.svg)
 
 The main output file of the workflow is the summary figure in scalable vector graphics (svg) format. This is illustrated in the right panel of the figure above. Other important output files are the:
 - OrthoFinder results found in `${dir}/PROTEOMES/OrthoFinder/`,
+- GO annotations for each orthogroup in `${dir}/ORTHOGROUPS/orthogroups_gene_counts_families_go.out`,
 - gene family expansion/contraction results in `${dir}/CAFE_results/`,
 - 4DTv results in plain text files (`${dir}/*.4DTv`), 
 - GO term analysis results in plain text files (`${dir}/*.goout`), and 
-- results of specific gene analyses 
-- plain text gene family expansion/contraction (`${dir}/SPECIFIC_GENES/*.conex`),
-- Ka/Ks plots across 15 base-pair windows: (`${dir}/SPECIFIC_GENES/*kaks.svg`), and
-- Significant Ka/Ks peaks Ka/Ks plots: (`${dir}/SPECIFIC_GENES/*PEAKS.csv`).
+- results of specific gene analyses:
+    + plain text gene family expansion/contraction (`${dir}/SPECIFIC_GENES/*.conex`),
+    + Ka/Ks plots across 15 base-pair windows: (`${dir}/SPECIFIC_GENES/*kaks.svg`), and
+    + significant Ka/Ks peaks Ka/Ks plots: (`${dir}/SPECIFIC_GENES/*PEAKS.csv`).
 
 The workflow generates other intermediate files, the purposes of which can be understood by reading the nextflow modules (`${compare_genomes_path}/modules/*nf`).
 
 ## Bioinformatics tools
+
 - **OrthoFinder**: Emms, David M., and Steven Kelly. “OrthoFinder: Phylogenetic Orthology Inference for Comparative Genomics.” Genome Biology 20, no. 1 (November 14, 2019): 238. https://doi.org/10.1186/s13059-019-1832-y.was 
 - **HMMER**: Mistry, Jaina, Robert D. Finn, Sean R. Eddy, Alex Bateman, and Marco Punta. “Challenges in Homology Search: HMMER3 and Convergent Evolution of Coiled-Coil Regions.” Nucleic Acids Research 41, no. 12 (July 1, 2013): e121. https://doi.org/10.1093/nar/gkt263.
 - **PantherHMM gene family models**: Mi, Huaiyu, Anushya Muruganujan, Dustin Ebert, Xiaosong Huang, and Paul D Thomas. “PANTHER Version 14: More Genomes, a New PANTHER GO-Slim and Improvements in Enrichment Analysis Tools.” Nucleic Acids Research 47, no. D1 (January 8, 2019): D419–26. https://doi.org/10.1093/nar/gky1038.
