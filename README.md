@@ -72,7 +72,7 @@ Set up the parameters for the comparative genomics analysis. You will find the f
     - **cafe5_n_gamma_cats**: number of the gamma values (parameter of the substitution model) to use for the assessment of significant gene family expansion and contraction using CAFE5. If this is equal to one, then we use the substitution model without the gamma function.
     - **cafe5_pvalue**: significance threshold of gene family expansion and contraction.
     - **go_term_enrich_genome_id**: genome ID for the species specified in **species_of_interest_panther_HMM_for_gene_names_url** or any species you wish to use. Find the appropriate taxon ID from [`here`](https://pantherdb.org/services/oai/pantherdb/supportedgenomes).
-    - **go_term_enrich_annotation_id**: code for the gene ontology level you with to use, e.g. `GO:0008150` for "Biological Process". See the list of GO codes [`here`](https://pantherdb.org/services/oai/pantherdb/supportedannotdatasets).
+    - **go_term_enrich_annotation_id**: code for the gene ontology level you wish to use, e.g. `GO:0008150` for "Biological Process". See the list of GO codes [`here`](https://pantherdb.org/services/oai/pantherdb/supportedannotdatasets).
     - **go_term_enrich_test**: GO term enrichment test to perform which can be either `FISHER` (Fisher's Exact Test) or `BINOMIAL`" (binomial distribution test).
     - **go_term_enrich_correction**: multiple testing correction which can be `NONE`, `FDR` (False discovery rate), or `BONFERRONI` (Bonferroni correction).
     - **go_term_enrich_ngenes_per_test**: number of randomly sampled genes to include in each GO term enrichment analysis.
