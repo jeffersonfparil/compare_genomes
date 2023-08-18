@@ -78,7 +78,7 @@ Set up the parameters for the comparative genomics analysis. You will find the f
     - **go_term_enrich_ngenes_per_test**: number of randomly sampled genes to include in each GO term enrichment analysis.
     - **go_term_enrich_ntests**: number GO term enrichment analyses to perform.
 
-7. [`process.config`](config/process.config): configuration file listing the computing resource allocation availble to you. Assign the number of **cpus** and **memory** capacity to use for low and high resources intensive tasks:
+7. [`process.config`](config/process.config): configuration file listing the computing resource allocation available to you. Assign the number of **cpus** and **memory** capacity to use for low and high resources intensive tasks:
     - **LOW_MEM_LOW_CPU**
     - **HIGH_MEM_HIGH_CPU**
 
