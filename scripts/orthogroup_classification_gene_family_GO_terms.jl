@@ -32,7 +32,7 @@ while !eof(file)
     line = split(readline(file), " "[1])
     seqName = split(line[1], ":"[1])
     speciesAndGeneName = split(seqName[2], "|"[1])
-    geneName = join(split(speciesAndGeneName[2], "-"[1])[2:end], "-"[1]) ### remove GeMoMa prefix (hyphen-delimited)
+    geneName = replace(speciesAndGeneName[2], "GeMoMa-" => "") ### remove GeMoMa prefix (hyphen-delimited)
     if geneName == ""
         geneName = speciesAndGeneName[2]
     end
