@@ -141,3 +141,8 @@ While we are working on emitting more informative error messages, please look fo
 - **CAFE v5**: De Bie, Tijl, Nello Cristianini, Jeffery P. Demuth, and Matthew W. Hahn. “CAFE: A Computational Tool for the Study of Gene Family Evolution.” Bioinformatics 22, no. 10 (May 15, 2006): 1269–71. https://doi.org/10.1093/bioinformatics/btl097.
 - **Gene ontology (GO) enrichment analysis**: Mi, Huaiyu, Anushya Muruganujan, Dustin Ebert, Xiaosong Huang, and Paul D Thomas. “PANTHER Version 14: More Genomes, a New PANTHER GO-Slim and Improvements in Enrichment Analysis Tools.” Nucleic Acids Research 47, no. D1 (January 8, 2019): D419–26. https://doi.org/10.1093/nar/gky1038.
 - **KaKs_calculator v2**: Wang, Da-Peng, Hao-Lei Wan, Song Zhang, and Jun Yu. “γ-MYN: A New Algorithm for Estimating Ka and Ks with Consideration of Variable Substitution Rates.” Biology Direct 4, no. 1 (June 16, 2009): 20. https://doi.org/10.1186/1745-6150-4-20.
+
+## Citation
+
+Paril, Jefferson, Tannaz Zare, and Alexandre Fournier-Level. “Compare_Genomes: A Comparative Genomics Workflow to Streamline the Analysis of Evolutionary Divergence Across Eukaryotic Genomes.” Current Protocols 3, no. 8 (2023): e876. [https://doi.org/10.1002/cpz1.876](https://doi.org/10.1002/cpz1.876).
+
