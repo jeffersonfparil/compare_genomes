@@ -77,6 +77,7 @@ process DOWNLOAD_PANTHER_DATABASE {
     label "LOW_MEM_LOW_CPU"
     input:
         val dir
+        val panther_hmm_database_location
     output:
         val 0
     shell:
@@ -84,10 +85,15 @@ process DOWNLOAD_PANTHER_DATABASE {
     #!/usr/bin/env bash
     cd !{dir}
     echo "These database will be used in the identification of orthogroup identities in orthofinder.nf, i.e. process: ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS"
-    wget 'http://data.pantherdb.org/ftp/panther_library/current_release/PANTHER17.0_hmmscoring.tgz'
-    tar -xvzf PANTHER17.0_hmmscoring.tgz
-    rm PANTHER17.0_hmmscoring.tgz
-    mv target/ PantherHMM_17.0/
+    if [ $(echo !{panther_hmm_database_location} | grep http | wc -l) -ne 1 ]
+    then
+        ln -s !{panther_hmm_database_location} !{dir}/PantherHMM_17.0
+    else
+        wget !{panther_hmm_database_location}
+        tar -xvzf PANTHER17.0_hmmscoring.tgz
+        rm PANTHER17.0_hmmscoring.tgz
+        mv target/ PantherHMM_17.0/
+    fi
     cd PantherHMM_17.0/
     wget 'http://data.pantherdb.org/ftp/hmm_classifications/current_release/PANTHER17.0_HMM_classifications'
     grep -v ':SF' PANTHER17.0_HMM_classifications > Panther17.0_HMM_familyIDs.txt
@@ -133,7 +139,7 @@ workflow {
     SETUP_DIRECTORIES(params.dir, params.urls) | \
         DOWNLOAD_OMICS_DATA
     // Execute in parallel:
-    DOWNLOAD_PANTHER_DATABASE(params.dir)
+    DOWNLOAD_PANTHER_DATABASE(params.dir, params.panther_hmm_database_location)
     INSTALL_JULIA_PACKAGES(params.dir)
     INSTALL_PANTHER_API_FORGO(params.dir)
 }
