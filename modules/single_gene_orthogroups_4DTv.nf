@@ -50,6 +50,7 @@ process CALCULATE_4DTV {
                 {1} \
                 {1}.4DTv.tmp \
         ::: $(ls ORTHOGROUPS_SINGLE_GENE_CDS_ALIGNMENTS/*.${TYPE}.cds)
+        mv ORTHOGROUPS_SINGLE_GENE_CDS_ALIGNMENTS/*.4DTv.tmp .
     fi
 
     echo "Concatenate pairwise 4DTv among species across single-copy orthogroups"
