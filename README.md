@@ -106,7 +106,11 @@ nextflow run modules/GO_enrichment.nf                       -c config/params.con
 nextflow run modules/assess_WGD.nf                          -c config/params.config ### ASSESS WHOLE GENOME DUPLICATION EVENTS
 nextflow run modules/plot_tree_conex_venn_4DTv.nf           -c config/params.config ### PLOT THE PHYLOGENETIC TREE, CONTRACTION/EXPANSION, GENE SETS VENN DIAGRAM AND 4DTv
 nextflow run modules/assess_specific_genes.nf               -c config/params.config ### ASSESS CONTRACTION/EXPANSION AND NON-SYNONYMOUS TO SYNONYMOUS NUCLEOTIDE SUBSTITION RATIOS
+
+### Print the most recent error log
+cat $(ls -r work/*/*/.command.err | tail -n1)
 ```
+
 ## Workflow and example output plot
 
 ![](misc/compare_genomes_workflow.svg)
