@@ -1,7 +1,7 @@
 name: compare_genomes
 channels:
-  - conda-forge
   - bioconda
+  - conda-forge
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
@@ -9,6 +9,7 @@ dependencies:
   - _r-mutex=1.0.1=anacondar_1
   - alsa-lib=1.2.8=h166bdaf_0
   - arpack=3.7.0=hdefa2d7_2
+  - bc=1.07.1=h7f98852_0
   - binutils_impl_linux-64=2.39=he00db2b_1
   - blast=2.5.0=hc0b0e79_3
   - boost=1.80.0=py311h59ea3da_4
@@ -16,7 +17,7 @@ dependencies:
   - bwidget=1.9.14=ha770c72_1
   - bzip2=1.0.8=h7f98852_4
   - c-ares=1.18.1=h7f98852_0
-  - ca-certificates=2022.12.7=ha878542_0
+  - ca-certificates=2023.08.22=h06a4308_0
   - cafe=5.0.0=h5b5514e_1
   - cairo=1.16.0=ha61ee94_1014
   - coreutils=9.1=h166bdaf_0
@@ -42,6 +43,7 @@ dependencies:
   - git=2.39.0=pl5321h693f4a3_0
   - gmp=6.2.1=h58526e2_0
   - graphite2=1.3.13=h58526e2_1001
+  - grep=3.4=hf43ccf4_4
   - gsl=2.7=he838d99_0
   - gxx_impl_linux-64=12.2.0=hcc96c02_19
   - harfbuzz=5.3.0=h418a68e_0
@@ -112,11 +114,12 @@ dependencies:
   - openjdk=17.0.3=hafdced1_4
   - openlibm=0.8.1=h7f98852_0
   - openmpi=4.1.4=ha1ae619_102
-  - openssl=3.0.7=h0b41bf4_1
+  - openssl=3.1.2=hd590300_0
   - orthofinder=2.5.4=hdfd78af_0
   - p7zip=16.02=h9c3ff4c_1001
   - pango=1.50.12=h382ae3d_0
   - parallel=20221122=ha770c72_0
+  - pcre=8.45=h295c915_0
   - pcre2=10.40=hc3806b6_0
   - perl=5.32.1=2_h7f98852_perl5
   - pip=22.3.1=pyhd8ed1ab_0
@@ -176,4 +179,4 @@ dependencies:
     - idna==2.8
     - requests==2.22.0
     - urllib3==1.25.11
-prefix: /data-weedomics-3/miniconda3/envs/compare_genomes
+prefix: /home/ubuntu/miniconda3/envs/compare_genomes
