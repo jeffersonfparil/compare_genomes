@@ -63,7 +63,7 @@ Set up the parameters for the comparative genomics analysis. You will find the f
 6. [`params.config`](config/params.config): configuration file listing the variables specific to the analyses you wish to perform.
     - **dir**: output directory.
     - **species_of_interest**: the focal species of interest which should be the same as in [`urls.txt`](config/urls.txt), [`dates.txt`](config/dates.txt), and [`genes.txt`](config/genes.txt).
-    - **species_of_interest_panther_HMM_for_gene_names_url**: URL to the specific Panther HMM database to extract gene names from, preferrably from the same species which will be used for gene ontology (GO) term enrichment analysis. See the current release list [here](http://data.pantherdb.org/ftp/sequence_classifications/current_release/PANTHER_Sequence_Classification_files/).
+    - **species_of_interest_panther_HMM_for_gene_names_url**: URL to the specific Panther HMM database to extract gene names from, preferrably from the same species which will be used for gene ontology (GO) term enrichment analysis. See the versio 17.0 list [here](http://data.pantherdb.org/ftp/sequence_classifications/17.0/PANTHER_Sequence_Classification_files/).
     - **panther_hmm_database_location**: URL or absolute path to the PANTHER HMM database. Use the default (i.e. `http://data.pantherdb.org/ftp/panther_library/17.0/PANTHER17.0_hmmscoring.tgz`), if you wish to (re)download the entire database. Otherwise use the absolute path of your pre-downloaded and unzipped database directory.
     - **urls**: location of [`urls.txt`](config/urls.txt).
     - **dates**: location of [`dates.txt`](config/dates.txt).
