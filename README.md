@@ -116,7 +116,7 @@ cat $(ls -r work/*/*/.command.err | tail -n1)
 ![](misc/compare_genomes_workflow.svg)
 
 The main output file of the workflow is the summary figure in scalable vector graphics (svg) format. This is illustrated in the right panel of the figure above. Other important output files are the:
-- OrthoFinder results found in `${dir}/PROTEOMES/OrthoFinder/`,
+- OrthoFinder results found in `${dir}/ORTHOGROUPS/OrthoFinder/`,
 - GO annotations for each orthogroup in `${dir}/ORTHOGROUPS/orthogroups_gene_counts_families_go.out`,
 - gene family expansion/contraction results in `${dir}/CAFE_results/`,
 - 4DTv results in plain text files (`${dir}/*.4DTv`), 
