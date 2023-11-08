@@ -78,6 +78,7 @@ process DOWNLOAD_PANTHER_DATABASE {
     input:
         val dir
         val panther_hmm_database_location
+        val panther_hmm_classifications_location
     output:
         val 0
     shell:
@@ -140,7 +141,7 @@ workflow {
     SETUP_DIRECTORIES(params.dir, params.urls) | \
         DOWNLOAD_OMICS_DATA
     // Execute in parallel:
-    DOWNLOAD_PANTHER_DATABASE(params.dir, params.panther_hmm_database_location)
+    DOWNLOAD_PANTHER_DATABASE(params.dir, params.panther_hmm_database_location, params.panther_hmm_classifications_location)
     INSTALL_JULIA_PACKAGES(params.dir)
     INSTALL_PANTHER_API_FORGO(params.dir)
 }
