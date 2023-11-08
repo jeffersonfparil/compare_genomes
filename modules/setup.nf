@@ -87,16 +87,17 @@ process DOWNLOAD_PANTHER_DATABASE {
     echo "These database will be used in the identification of orthogroup identities in orthofinder.nf, i.e. process: ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS"
     if [ $(echo !{panther_hmm_database_location} | grep http | wc -l) -ne 1 ]
     then
-        ln -s !{panther_hmm_database_location} !{dir}/PantherHMM_17.0
+        ln -s !{panther_hmm_database_location} !{dir}/PantherHMM
     else
         wget !{panther_hmm_database_location}
-        tar -xvzf PANTHER17.0_hmmscoring.tgz
-        rm PANTHER17.0_hmmscoring.tgz
-        mv target/ PantherHMM_17.0/
+        tar -xvzf $(basename !{panther_hmm_database_location})
+        rm !{panther_hmm_database_location}
+        mv target/ PantherHMM/
     fi
-    cd PantherHMM_17.0/
-    wget 'http://data.pantherdb.org/ftp/hmm_classifications/current_release/PANTHER17.0_HMM_classifications'
-    grep -v ':SF' PANTHER17.0_HMM_classifications > Panther17.0_HMM_familyIDs.txt
+    cd PantherHMM/
+    wget !{panther_hmm_classifications_location}
+    mv $(basename !{panther_hmm_classifications_location}) PANTHER_HMM_classifications
+    grep -v ':SF' PANTHER_HMM_classifications > Panther_HMM_familyIDs.txt
     '''
 }
 

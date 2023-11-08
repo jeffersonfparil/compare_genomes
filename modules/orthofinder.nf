@@ -66,8 +66,8 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     DIR_ORTHOGROUPS=$(pwd)/ORTHOGROUPS/OrthoFinder/${DIR_ORTHOFINDER_OUT}
     
     echo "Define the location of the 15,619 protein family HMMs."
-    DIR_PANTHER=$(pwd)/PantherHMM_17.0/famlib/rel/PANTHER17.0_altVersion/hmmscoring/PANTHER17.0/books
-    GOT_PATHER=$(pwd)/PantherHMM_17.0/PANTHER17.0_HMM_classifications
+    DIR_PANTHER=$(pwd)/PantherHMM/famlib/rel/PANTHER*_altVersion/hmmscoring/PANTHER*/books
+    GOT_PATHER=$(pwd)/PantherHMM/PANTHER_HMM_classifications
     
     echo "Add Orthogroup name to each protein sequence name and merge so that we can be more efficient with hmmsearch."
     echo '#!/bin/bash
@@ -138,7 +138,7 @@ process ASSIGN_GENE_FAMILIES_TO_ORTHOGROUPS {
     grep "^>" ${MERGED_ORTHOGROUPS} | cut -d':' -f1 | sed 's/>//g' | sort | uniq > all_orthogroups.tmp
     julia !{projectDir}/../scripts/orthogroup_classification_gene_family_GO_terms.jl \
             ORTHOGROUPS/orthogroups.pthr \
-            PantherHMM_17.0/Panther17.0_HMM_familyIDs.txt \
+            PantherHMM/Panther_HMM_familyIDs.txt \
             all_orthogroups.tmp \
             ${DIR_ORTHOGROUPS}/Orthogroups/Orthogroups.GeneCount.tsv \
             ${DIR_ORTHOGROUPS}/Orthogroups/Orthogroups_UnassignedGenes.tsv \
