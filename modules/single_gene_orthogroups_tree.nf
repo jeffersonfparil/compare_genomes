@@ -139,6 +139,25 @@ process BUILD_TREE {
     ::: $(ls *.${TYPE} | sed "s/.$TYPE//g") \
     ::: $(grep "^>" $(ls *.${TYPE} | head -n1) | sed 's/^>//g')
 
+    echo "Remove alignments which do not match lengths across species (i.e. in cases where there are actually multiple alignmets of an orthogroup probably due to mislabelling in the input coding sequences - sequences with the same names)"
+    for ORTHO_EXPECTED in $(ls OG*-*_*.fasta | cut -d- -f1 | sort | uniq)
+    do
+        # ORTHO_EXPECTED=$(ls OG*-*_*.fasta | cut -d- -f1 | sort | uniq | head -n1)
+        SPECIES_1=$(grep "^>" $(ls *.${TYPE} | head -n1) | sed 's/^>//g' | head -n1)
+        N_1=$(grep -v "^>" ${ORTHO_EXPECTED}-${SPECIES_1}.fasta | sed -z 's/\\n//g' | wc -c)
+        for SPECIES_2 in $(grep "^>" $(ls *.${TYPE} | head -n1) | sed 's/^>//g' | tail -n+2)
+        do
+            # SPECIES_2=$(grep "^>" $(ls *.${TYPE} | head -n1) | sed 's/^>//g' | tail -n+2 | head -n1)
+            N_2=$(grep -v "^>" ${ORTHO_EXPECTED}-${SPECIES_2}.fasta | sed -z 's/\\n//g' | wc -c)
+            if [ $N_1 -ne $N_2 ]
+            then
+                echo ${ORTHO_EXPECTED}-${SPECIES_1}.fasta AND ${ORTHO_EXPECTED}-${SPECIES_2}.fasta
+                rm ${ORTHO_EXPECTED}-*_*.fasta
+                break
+            fi
+        done
+    done
+
     echo "Concatenate alignments per species (Outputs: {SPECIES}.aln)"
     for SPECIES in $(grep "^>" $(ls *.${TYPE} | head -n1) | sed 's/^>//g')
     do
@@ -147,7 +166,7 @@ process BUILD_TREE {
         echo ">${SPECIES}" > ${SPECIES}.aln.tmp
         for f in $(ls *-${SPECIES}.fasta)
         do
-            sed '/^>/d' $f | sed -z 's/\\n//g' >> ${SPECIES}.aln.tmp
+            sed '/^>/d' $f | sed -z 's/\\n//g' >> ${SPECIES}.aln.tmp  ### Note that you need to remove one of the escape characters in the newline character, if you need to run this on bash manually
         done
         echo "" >> ${SPECIES}.aln.tmp
         julia !{projectDir}/../scripts/reformat_fasta_sequence.jl \
@@ -166,7 +185,7 @@ process BUILD_TREE {
     do
         # f=$(ls *-${SPECIES}.fasta | head -n1)
         NAME=$(head -n1 $f | sed 's/>//g' | cut -d'-' -f1)
-        N1=$(cat $f | sed '/^>/d' | sed -z 's/\\n//g' | wc -c)
+        N1=$(cat $f | sed '/^>/d' | sed -z 's/\\n//g' | wc -c) ### Note that you need to remove one of the escape characters in the newline character, if you need to run this on bash manually
         START=$(echo "$N0 + 1" | bc)
         END=$(echo "$N0 + $N1" | bc)
         echo "charset $NAME = $START-$END;" >> alignment_parition.${TYPE%.*}.nex
