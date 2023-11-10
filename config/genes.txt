@@ -1,1 +1,1 @@
-GSTU13,Arabidopsis_thaliana,https://www.uniprot.org/uniprotkb/Q9FUS6.fasta
+GST,Tribolium_castaneum,https://www.uniprot.org/uniprotkb/I6RE26.fasta

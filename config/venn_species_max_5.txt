@@ -1,4 +1,5 @@
-Arabidopsis thaliana
-Arabidopsis suecica
-Arabidopsis arenosa
-Arabidopsis lyrata
+Tribolium castaneum
+Tenebrio molitor
+Dendroctonus ponderosae
+Tribolium madens
+Zophobas morio

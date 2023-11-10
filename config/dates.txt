@@ -1,3 +1,2 @@
-Arabidopsis_thaliana,Arabidopsis_lyrata     -6.000
-Arabidopsis_arenosa,Arabidopsis_lyrata      -1.290
-Arabidopsis_thaliana,Arabidopsis_suecica    -0.238
+Tribolium_castaneum,Tenebrio_molitor -172.000
+Dendroctonus_ponderosae,Tribolium_castaneum -215.000

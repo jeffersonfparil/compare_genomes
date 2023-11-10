@@ -1,5 +1,5 @@
-Arabidopsis_suecica
-Arabidopsis_arenosa
-Arabidopsis_suecica X Arabidopsis_thaliana
-Arabidopsis_suecica X Arabidopsis_lyrata
-Arabidopsis_suecica X Arabidopsis_arenosa
+Tribolium_castaneum
+Tenebrio_molitor
+Dendroctonus_ponderosae
+Tribolium_castaneum X Tenebrio_molitor
+Dendroctonus_ponderosae X Tribolium_castaneum
