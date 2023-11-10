@@ -64,7 +64,8 @@ Set up the parameters for the comparative genomics analysis. You will find the f
     - **dir**: output directory.
     - **species_of_interest**: the focal species of interest which should be the same as in [`urls.txt`](config/urls.txt), [`dates.txt`](config/dates.txt), and [`genes.txt`](config/genes.txt).
     - **species_of_interest_panther_HMM_for_gene_names_url**: URL to the specific Panther HMM database to extract gene names from, preferrably from the same species which will be used for gene ontology (GO) term enrichment analysis. See the version 17.0 list at http://data.pantherdb.org/ftp/sequence_classifications/17.0/PANTHER_Sequence_Classification_files (note the `http` as opposed to `https`).
-   - **panther_hmm_database_location**: URL or absolute path to the PANTHER HMM database. Use the default (i.e. `http://data.pantherdb.org/ftp/panther_library/17.0/PANTHER17.0_hmmscoring.tgz`), if you wish to (re)download the entire database. Otherwise use the absolute path of your pre-downloaded and unzipped database directory.
+    - **panther_hmm_database_location**: URL or absolute path to the PANTHER HMM database. The default is the URL to version 17 i.e. `http://data.pantherdb.org/ftp/panther_library/17.0/PANTHER17.0_hmmscoring.tgz`). If you have downloaded the database before then use the absolute path of your pre-downloaded and unzipped database directory.
+    - **panther_hmm_classifications_location**: URL to the PANTHER HMM classifications file containing the GO terms associated with each HMM class. The default is version 7, i.e. `http://data.pantherdb.org/ftp/hmm_classifications/17.0/PANTHER17.0_HMM_classifications`
     - **urls**: location of [`urls.txt`](config/urls.txt).
     - **dates**: location of [`dates.txt`](config/dates.txt).
     - **comparisons_4DTv**: location of [`comparisons_4DTv.txt`](config/comparisons_4DTv.txt).
